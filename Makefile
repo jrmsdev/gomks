@@ -3,7 +3,7 @@ default: build
 
 .PHONY: build
 build:
-	@mkdir -vp ./_build/cmd
+	@mkdir -p ./_build/cmd
 	@go build -v -mod vendor -i -o ./_build/cmd/mks.bin ./cmd/mks
 
 .PHONY: clean
@@ -26,6 +26,6 @@ testclean:
 
 .PHONY: cover
 cover: build
-	@mkdir -vp ./_testing
+	@mkdir -p ./_testing
 	@go test -mod vendor -coverprofile ./_testing/cover.out ./...
 	@go tool cover -html ./_testing/cover.out -o ./_testing/coverage.html
