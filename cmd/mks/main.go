@@ -11,5 +11,17 @@ import (
 )
 
 func main() {
-	mks.Log("Args: %#v", os.Args)
+	if len(os.Args) != 2 {
+		mks.Log("ERROR: %s", "invalid args")
+		os.Exit(1)
+	}
+	arg := os.Args[1]
+	switch arg {
+	case "version":
+		mks.Log("mks version %s", mks.Version())
+	default:
+		mks.Log("ERROR: %s", "invalid action")
+		os.Exit(2)
+	}
+	os.Exit(0)
 }
