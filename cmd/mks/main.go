@@ -20,7 +20,7 @@ func main() {
 	case "version":
 		mks.Log("mks version %s", mks.Version())
 	default:
-		mks.Log("ERROR: %s", "invalid action")
+		mks.Log("ERROR: invalid action %q", arg)
 		os.Exit(2)
 	}
 	os.Exit(0)
