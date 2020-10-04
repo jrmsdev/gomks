@@ -30,6 +30,11 @@ cover: build
 	@go test -mod vendor -coverprofile ./_testing/cover.out ./...
 	@go tool cover -html ./_testing/cover.out -o ./_testing/coverage.html
 
+.PHONY: vendor
+vendor:
+	@go mod vendor
+	@go mod tidy
+
 .PHONY: demo
 demo: build
 	@./demo/build.sh
