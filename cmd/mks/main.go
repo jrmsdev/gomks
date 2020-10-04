@@ -5,10 +5,11 @@
 package main
 
 import (
+	"os"
+
 	"github.com/jrmsdev/gomks"
 )
 
 func main() {
-	mks.Log("%s", "Init...")
-	mks.Log("%s", "End.")
+	mks.Log("Args: %#v", os.Args)
 }
