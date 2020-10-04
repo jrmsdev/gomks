@@ -37,4 +37,4 @@ vendor:
 
 .PHONY: demo
 demo: build
-	@./demo/build.sh
+	@./_build/cmd/mks.bin ./demo/build.mks

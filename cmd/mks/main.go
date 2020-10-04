@@ -15,13 +15,11 @@ func main() {
 		mks.Log("ERROR: %s", "invalid args")
 		os.Exit(1)
 	}
-	arg := os.Args[1]
-	switch arg {
-	case "version":
-		mks.Log("mks version %s", mks.Version())
-	default:
-		mks.Log("ERROR: invalid action %q", arg)
-		os.Exit(2)
+	for _, script := range os.Args[1:] {
+		if err := mks.Eval(script); err != nil {
+			mks.Log("ERROR: %v", err)
+			os.Exit(2)
+		}
 	}
 	os.Exit(0)
 }

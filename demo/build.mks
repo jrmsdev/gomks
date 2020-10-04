@@ -1,0 +1,1 @@
+log("mks version v%s", version())
