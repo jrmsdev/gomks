@@ -7,7 +7,7 @@ package main
 import (
 	"os"
 
-	"github.com/jrmsdev/gomks"
+	mks "github.com/jrmsdev/gomks"
 )
 
 func main() {

@@ -1,3 +1,4 @@
+PKG ?= ./...
 MOD := github.com/jrmsdev/gomks
 
 .PHONY: default
@@ -16,26 +17,26 @@ _build/version:
 
 .PHONY: clean
 clean:
-	@go clean -mod vendor -i -cache ./...
+	@go clean -mod vendor -i -cache $(PKG)
 	@rm -vf ./mks
 	@rm -vrf ./_build ./_testing
 
 .PHONY: distclean
 distclean:
-	@go clean -mod vendor -i -cache -modcache -testcache ./...
+	@go clean -mod vendor -i -cache -modcache -testcache $(PKG)
 
 .PHONY: test
 test: build
-	@go test -mod vendor ./...
+	@go test -mod vendor $(PKG)
 
 .PHONY: testclean
 testclean:
-	@go clean -mod vendor -testcache ./...
+	@go clean -mod vendor -testcache $(PKG)
 
 .PHONY: cover
 cover: build
 	@mkdir -p ./_testing
-	@go test -mod vendor -coverprofile ./_testing/cover.out ./...
+	@go test -mod vendor -coverprofile ./_testing/cover.out $(PKG)
 	@go tool cover -html ./_testing/cover.out -o ./_testing/coverage.html
 
 .PHONY: vendor
