@@ -11,7 +11,7 @@ import (
 	//~ "github.com/mattn/anko/vm"
 )
 
-const version string = "0.0"
+var version string = "master"
 
 func Version() string {
 	return version

@@ -15,6 +15,10 @@ func main() {
 		mks.Log("ERROR: %s", "invalid args")
 		os.Exit(1)
 	}
+	if os.Args[1] == "version" {
+		mks.Log("mks version %s", mks.Version())
+		os.Exit(0)
+	}
 	e := mks.NewEnv()
 	for _, fn := range os.Args[1:] {
 		if err := mks.Eval(e, fn); err != nil {

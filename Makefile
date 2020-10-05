@@ -1,10 +1,19 @@
+MOD := github.com/jrmsdev/gomks
+
 .PHONY: default
 default: build
 
 .PHONY: build
-build:
+build: _build/version
 	@mkdir -p ./_build/cmd
-	@go build -v -mod vendor -i -o ./_build/cmd/mks.bin ./cmd/mks
+#~ 	@echo "-- build version: `cat ./_build/version`"
+	@go build -v -mod vendor -i -o ./_build/cmd/mks.bin \
+		-ldflags "-X $(MOD).version=`cat ./_build/version`" ./cmd/mks
+
+.PHONY: _build/version
+_build/version:
+	@mkdir -p ./_build
+	@echo "`cat VERSION.txt`-`date -u '+%Y%m%d.%H%M%S'`-`git describe --always --dirty`" >./_build/version
 
 .PHONY: clean
 clean:
