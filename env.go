@@ -13,7 +13,7 @@ type Env interface {
 	Define(symbol string, value interface{}) error
 }
 
-func NewEnv() *env.Env {
+func newEnv() *env.Env {
 	e := env.NewEnv()
 	define(e, "log", Log)
 	define(e, "version", Version)

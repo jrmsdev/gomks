@@ -11,12 +11,33 @@ import (
 	"github.com/mattn/anko/vm"
 )
 
-func Eval(e *env.Env, filename string) error {
+var _ VM = &vms{}
+
+type VM interface {
+	Execute(script string) error
+	Eval(filename string) error
+}
+
+type vms struct {
+	opts *vm.Options
+	env  *env.Env
+}
+
+func NewVM() *vms {
+	return &vms{opts: new(vm.Options), env: newEnv()}
+}
+
+func (m *vms) Execute(script string) error {
+	_, err := vm.Execute(m.env, m.opts, script)
+	return err
+}
+
+func (m *vms) Eval(filename string) error {
 	blob, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return err
 	}
-	if _, err := vm.Execute(e, nil, string(blob)); err != nil {
+	if err := m.Execute(string(blob)); err != nil {
 		return err
 	}
 	return nil

@@ -32,7 +32,7 @@ func getSym(e *env.Env, n string) error {
 
 func (s *EnvTestSuite) TestSymbols() {
 	check := s.Require()
-	e := NewEnv()
+	e := newEnv()
 	check.NoError(getSym(e, "log"))
 	check.NoError(getSym(e, "version"))
 }

@@ -27,9 +27,9 @@ func run(args []string) int {
 		mks.Log("mks version %s", mks.Version())
 		return 0
 	}
-	e := mks.NewEnv()
+	vm := mks.NewVM()
 	for _, fn := range args {
-		if err := mks.Eval(e, fn); err != nil {
+		if err := vm.Eval(fn); err != nil {
 			mks.Log("ERROR: %s: %v", fn, err)
 			return 2
 		}
