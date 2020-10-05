@@ -1,5 +1,9 @@
 # gomks
 
+[![GoDoc Reference](https://godoc.org/github.com/jrmsdev/gomks?status.svg)](http://godoc.org/github.com/jrmsdev/gomks)
+[![Build Status](https://travis-ci.org/jrmsdev/gomks.svg?branch=master)](https://travis-ci.org/jrmsdev/gomks)
+[![Go Report Card](https://goreportcard.com/badge/github.com/jrmsdev/gomks)](https://goreportcard.com/report/github.com/jrmsdev/gomks)
+
 Scriptable static website generator using [anko](https://github.com/mattn/anko)
 Go interpreter.
 
