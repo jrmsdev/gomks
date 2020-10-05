@@ -35,6 +35,10 @@ vendor:
 	@go mod vendor
 	@go mod tidy
 
+.PHONY: fmt
+fmt:
+	@gofmt -w -l -s .
+
 .PHONY: demo
 demo: build
 	@./_build/cmd/mks.bin ./demo/build.mks
