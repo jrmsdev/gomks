@@ -3,13 +3,34 @@
 
 package mks
 
-//~ import (
-	//~ "testing"
+import (
+	"testing"
 
-	//~ "github.com/stretchr/testify/assert"
-//~ )
+	"github.com/stretchr/testify/suite"
+)
 
-//~ func TestVersion(t *testing.T) {
-	//~ check := assert.New(t)
-	//~ check.Equal(version, Version())
-//~ }
+func TestEnv(t *testing.T) {
+	suite.Run(t, new(EnvTestSuite))
+}
+
+type EnvTestSuite struct {
+	suite.Suite
+}
+
+func (s *EnvTestSuite) SetupTest() {
+}
+
+func (s *EnvTestSuite) TearDownTest() {
+}
+
+func getSym(e *Env, n string) error {
+	_, err := e.Env.Get(n)
+	return err
+}
+
+func (s *EnvTestSuite) TestSymbols() {
+	check := s.Require()
+	e := NewEnv()
+	check.NoError(getSym(e, "log"))
+	check.NoError(getSym(e, "version"))
+}
