@@ -27,8 +27,14 @@ type Env struct {
 
 func NewEnv() *Env {
 	e := env.NewEnv()
-	e.Define("log", Log)
+	define(e, "log", Log)
 	return &Env{Env: e}
+}
+
+func define(e *env.Env, symbol string, value interface{}) {
+	if err := e.Define(symbol, value); err != nil {
+		panic(err)
+	}
 }
 
 func Eval(e *Env, filename string) error {
