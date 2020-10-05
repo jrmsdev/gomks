@@ -44,3 +44,15 @@ func (s *MainTestSuite) TestVersion() {
 	rc := run([]string{"version"})
 	check.Equal(0, rc)
 }
+
+func (s *MainTestSuite) TestEval() {
+	check := s.Require()
+	rc := run([]string{"testdata/eval.mks"})
+	check.Equal(0, rc)
+}
+
+func (s *MainTestSuite) TestEvalError() {
+	check := s.Require()
+	rc := run([]string{"eval.error"})
+	check.Equal(2, rc)
+}
