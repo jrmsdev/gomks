@@ -5,10 +5,11 @@
 package mks
 
 import (
+	"io/ioutil"
 	"log"
 
 	"github.com/mattn/anko/env"
-	//~ "github.com/mattn/anko/vm"
+	"github.com/mattn/anko/vm"
 )
 
 var version string = "master"
@@ -28,6 +29,7 @@ type Env struct {
 func NewEnv() *Env {
 	e := env.NewEnv()
 	define(e, "log", Log)
+	define(e, "version", Version)
 	return &Env{Env: e}
 }
 
@@ -38,5 +40,12 @@ func define(e *env.Env, symbol string, value interface{}) {
 }
 
 func Eval(e *Env, filename string) error {
+	blob, err := ioutil.ReadFile(filename)
+	if err != nil {
+		return err
+	}
+	if _, err := vm.Execute(e.Env, nil, string(blob)); err != nil {
+		return err
+	}
 	return nil
 }
