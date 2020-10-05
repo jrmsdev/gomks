@@ -5,6 +5,7 @@ package mks
 
 import (
 	//~ "errors"
+	"path/filepath"
 	"testing"
 
 	//~ "github.com/mattn/anko/env"
@@ -37,4 +38,22 @@ func (s *VMTestSuite) TestExec() {
 	check := s.Require()
 	vm := NewVM()
 	check.NoError(vm.Execute(`log("test%s", "ing")`))
+}
+
+func (s *VMTestSuite) TestEval() {
+	check := s.Require()
+	vm := NewVM()
+	check.NoError(vm.Eval(filepath.FromSlash("./testdata/eval.mks")))
+}
+
+func (s *VMTestSuite) TestEvalError() {
+	check := s.Require()
+	vm := NewVM()
+	check.Error(vm.Eval("eval.error"))
+}
+
+func (s *VMTestSuite) TestExecError() {
+	check := s.Require()
+	vm := NewVM()
+	check.EqualError(vm.Eval(filepath.FromSlash("./testdata/eval-error.mks")), "undefined symbol 'invalid'")
 }

@@ -5,6 +5,7 @@ package main
 
 import (
 	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/suite"
@@ -47,7 +48,7 @@ func (s *MainTestSuite) TestVersion() {
 
 func (s *MainTestSuite) TestEval() {
 	check := s.Require()
-	rc := run([]string{"testdata/eval.mks"})
+	rc := run([]string{filepath.FromSlash("./testdata/eval.mks")})
 	check.Equal(0, rc)
 }
 
