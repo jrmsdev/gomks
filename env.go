@@ -7,18 +7,20 @@ import (
 	"github.com/mattn/anko/env"
 )
 
-type Env struct {
-	*env.Env
+var _ Env = &env.Env{}
+
+type Env interface {
+	Define(symbol string, value interface{}) error
 }
 
-func NewEnv() *Env {
+func NewEnv() *env.Env {
 	e := env.NewEnv()
 	define(e, "log", Log)
 	define(e, "version", Version)
-	return &Env{Env: e}
+	return e
 }
 
-func define(e *env.Env, symbol string, value interface{}) {
+func define(e Env, symbol string, value interface{}) {
 	if err := e.Define(symbol, value); err != nil {
 		panic(err)
 	}

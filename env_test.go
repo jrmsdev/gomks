@@ -4,8 +4,10 @@
 package mks
 
 import (
+	"errors"
 	"testing"
 
+	"github.com/mattn/anko/env"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -23,8 +25,8 @@ func (s *EnvTestSuite) SetupTest() {
 func (s *EnvTestSuite) TearDownTest() {
 }
 
-func getSym(e *Env, n string) error {
-	_, err := e.Env.Get(n)
+func getSym(e *env.Env, n string) error {
+	_, err := e.Get(n)
 	return err
 }
 
@@ -33,4 +35,24 @@ func (s *EnvTestSuite) TestSymbols() {
 	e := NewEnv()
 	check.NoError(getSym(e, "log"))
 	check.NoError(getSym(e, "version"))
+}
+
+var _ Env = &mockEnv{}
+
+type mockEnv struct {
+	err error
+}
+
+func (e *mockEnv) Define(symbol string, value interface{}) error {
+	return e.err
+}
+
+func (s *EnvTestSuite) TestDefinePanic() {
+	check := s.Require()
+	e := new(mockEnv)
+	e.err = errors.New("testing")
+	x := func() {
+		define(e, "nosym", nil)
+	}
+	check.PanicsWithError("testing", x)
 }

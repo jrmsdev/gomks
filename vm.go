@@ -7,15 +7,16 @@ package mks
 import (
 	"io/ioutil"
 
+	"github.com/mattn/anko/env"
 	"github.com/mattn/anko/vm"
 )
 
-func Eval(e *Env, filename string) error {
+func Eval(e *env.Env, filename string) error {
 	blob, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return err
 	}
-	if _, err := vm.Execute(e.Env, nil, string(blob)); err != nil {
+	if _, err := vm.Execute(e, nil, string(blob)); err != nil {
 		return err
 	}
 	return nil
