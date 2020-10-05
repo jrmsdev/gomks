@@ -3,13 +3,38 @@
 
 package mks
 
-//~ import (
-	//~ "testing"
+import (
+	//~ "errors"
+	"testing"
 
-	//~ "github.com/stretchr/testify/assert"
-//~ )
+	//~ "github.com/mattn/anko/env"
+	"github.com/stretchr/testify/suite"
+)
 
-//~ func TestVersion(t *testing.T) {
-	//~ check := assert.New(t)
-	//~ check.Equal(version, Version())
-//~ }
+func TestVM(t *testing.T) {
+	suite.Run(t, new(VMTestSuite))
+}
+
+type VMTestSuite struct {
+	suite.Suite
+}
+
+func (s *VMTestSuite) SetupTest() {
+}
+
+func (s *VMTestSuite) TearDownTest() {
+}
+
+func (s *VMTestSuite) TestNewVM() {
+	check := s.Require()
+	vm := NewVM()
+	check.NotNil(vm.opts)
+	check.False(vm.opts.Debug)
+	check.NotNil(vm.env)
+}
+
+func (s *VMTestSuite) TestExec() {
+	check := s.Require()
+	vm := NewVM()
+	check.NoError(vm.Execute(`log("test%s", "ing")`))
+}
