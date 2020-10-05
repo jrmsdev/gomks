@@ -7,7 +7,7 @@ package mks
 import (
 	"log"
 
-	//~ "github.com/mattn/anko/env"
+	"github.com/mattn/anko/env"
 	//~ "github.com/mattn/anko/vm"
 )
 
@@ -21,6 +21,16 @@ func Log(format string, v ...interface{}) {
 	log.Printf(format, v...)
 }
 
-func Eval(script string) error {
+type Env struct {
+	*env.Env
+}
+
+func NewEnv() *Env {
+	e := env.NewEnv()
+	e.Define("log", Log)
+	return &Env{Env: e}
+}
+
+func Eval(e *Env, filename string) error {
 	return nil
 }

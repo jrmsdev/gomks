@@ -15,9 +15,10 @@ func main() {
 		mks.Log("ERROR: %s", "invalid args")
 		os.Exit(1)
 	}
-	for _, script := range os.Args[1:] {
-		if err := mks.Eval(script); err != nil {
-			mks.Log("ERROR: %v", err)
+	e := mks.NewEnv()
+	for _, fn := range os.Args[1:] {
+		if err := mks.Eval(e, fn); err != nil {
+			mks.Log("ERROR: %s: %v", fn, err)
 			os.Exit(2)
 		}
 	}
