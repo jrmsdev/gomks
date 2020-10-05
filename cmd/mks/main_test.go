@@ -32,9 +32,15 @@ func (s *MainTestSuite) mockExit(code int) {
 	s.ExitCode = code
 }
 
-func (s *MainTestSuite) TestMain() {
+func (s *MainTestSuite) TestNoArgs() {
 	check := s.Require()
 	check.Equal(-1, s.ExitCode)
 	main()
 	check.Equal(1, s.ExitCode)
+}
+
+func (s *MainTestSuite) TestVersion() {
+	check := s.Require()
+	rc := run([]string{"version"})
+	check.Equal(0, rc)
 }
