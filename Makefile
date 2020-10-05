@@ -6,7 +6,6 @@ default: build
 .PHONY: build
 build: _build/version
 	@mkdir -p ./_build/cmd
-#~ 	@echo "-- build version: `cat ./_build/version`"
 	@go build -v -mod vendor -i -o ./_build/cmd/mks.bin \
 		-ldflags "-X $(MOD).version=`cat ./_build/version`" ./cmd/mks
 
