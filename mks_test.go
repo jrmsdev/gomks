@@ -13,3 +13,7 @@ func TestVersion(t *testing.T) {
 	check := assert.New(t)
 	check.Equal(version, Version())
 }
+
+func TestLog(t *testing.T) {
+	Log("test%s", "ing")
+}
