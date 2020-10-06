@@ -1,4 +1,4 @@
-# mks
+# gomks
 
 [![GoDoc Reference](https://godoc.org/github.com/jrmsdev/gomks?status.svg)](http://godoc.org/github.com/jrmsdev/gomks)
 [![Build Status](https://travis-ci.org/jrmsdev/gomks.svg?branch=master)](https://travis-ci.org/jrmsdev/gomks)

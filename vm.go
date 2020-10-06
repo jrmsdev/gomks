@@ -1,7 +1,6 @@
 // Copyright (c) Jeremías Casteglione <jrmsdev@gmail.com>
 // See LICENSE file.
 
-// Package mks implements an scriptable static website generator.
 package mks
 
 import (
