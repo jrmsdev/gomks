@@ -17,3 +17,7 @@ func Version() string {
 func Log(format string, v ...interface{}) {
 	log.Printf(format, v...)
 }
+
+func Panic(v ...interface{}) {
+	log.Panic(v...)
+}

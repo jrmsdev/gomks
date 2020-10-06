@@ -17,3 +17,11 @@ func TestVersion(t *testing.T) {
 func TestLog(t *testing.T) {
 	Log("test%s", "ing")
 }
+
+func TestPanic(t *testing.T) {
+	check := assert.New(t)
+	f := func() {
+		Panic("testing")
+	}
+	check.PanicsWithValue("testing", f)
+}
