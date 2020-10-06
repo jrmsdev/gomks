@@ -29,8 +29,6 @@ func (s *VMTestSuite) TearDownTest() {
 func (s *VMTestSuite) TestNewVM() {
 	check := s.Require()
 	vm := NewVM()
-	check.NotNil(vm.opts)
-	check.False(vm.opts.Debug)
 	check.NotNil(vm.env)
 }
 

@@ -17,6 +17,7 @@ func newEnv() *env.Env {
 	e := env.NewEnv()
 	define(e, "log", Log)
 	define(e, "version", Version)
+	define(e, "panic", Panic)
 	return e
 }
 

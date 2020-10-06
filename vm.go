@@ -18,16 +18,15 @@ type VM interface {
 }
 
 type vms struct {
-	opts *vm.Options
 	env  *env.Env
 }
 
 func NewVM() *vms {
-	return &vms{opts: new(vm.Options), env: newEnv()}
+	return &vms{env: newEnv()}
 }
 
 func (m *vms) Execute(script string) error {
-	_, err := vm.Execute(m.env, m.opts, script)
+	_, err := vm.Execute(m.env, nil, script)
 	return err
 }
 
