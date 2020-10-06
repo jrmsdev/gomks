@@ -27,7 +27,7 @@ distclean:
 
 .PHONY: test
 test: build
-	@go test -mod vendor $(PKG)
+	@(MKSLOG=debug go test -mod vendor $(PKG))
 
 .PHONY: testclean
 testclean:
@@ -36,7 +36,7 @@ testclean:
 .PHONY: cover
 cover: build
 	@mkdir -p ./_testing
-	@go test -mod vendor -coverprofile ./_testing/cover.out $(PKG)
+	@(MKSLOG=debug go test -mod vendor -coverprofile ./_testing/cover.out $(PKG))
 	@go tool cover -html ./_testing/cover.out -o ./_testing/coverage.html
 
 .PHONY: vendor

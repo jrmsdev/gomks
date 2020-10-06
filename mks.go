@@ -6,7 +6,16 @@ package gomks
 
 import (
 	"log"
+	"os"
 )
+
+func init() {
+	if os.Getenv("MKSLOG") == "debug" {
+		log.SetFlags(log.Llongfile)
+	} else {
+		log.SetFlags(log.Lmsgprefix)
+	}
+}
 
 var version string = "master"
 
