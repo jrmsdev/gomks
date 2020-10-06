@@ -43,6 +43,7 @@ cover: build
 vendor:
 	@go mod vendor
 	@go mod tidy
+	@$(MAKE) fmt
 
 .PHONY: fmt
 fmt:
