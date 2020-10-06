@@ -41,9 +41,9 @@ cover: build
 
 .PHONY: vendor
 vendor:
-	@go mod vendor
+	@go mod vendor -v
 	@go mod tidy
-	@$(MAKE) fmt
+	@$(MAKE) fmt >/dev/null
 
 .PHONY: fmt
 fmt:
