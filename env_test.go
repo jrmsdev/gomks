@@ -25,6 +25,23 @@ func (s *EnvTestSuite) SetupTest() {
 func (s *EnvTestSuite) TearDownTest() {
 }
 
+type symt struct {
+	script string
+	err    string
+}
+
+var symTests = map[string]map[string]symt{
+	"log": {
+		"test": {`log("test%s", "ing")`, ""},
+	},
+	"version": {
+		"test": {"version()", ""},
+	},
+	"panic": {
+		"test": {`panic("testing")`, "testing"},
+	},
+}
+
 func getSym(e *env.Env, n string) error {
 	_, err := e.Get(n)
 	return err
@@ -32,9 +49,19 @@ func getSym(e *env.Env, n string) error {
 
 func (s *EnvTestSuite) TestSymbols() {
 	check := s.Require()
-	e := newEnv()
-	check.NoError(getSym(e, "log"))
-	check.NoError(getSym(e, "version"))
+	for n := range symTests {
+		e := newEnv()
+		check.NoError(getSym(e, n), "get symbol %q", n)
+		for nn := range symTests[n] {
+			vm := NewVM()
+			t := symTests[n][nn]
+			if t.err != "" {
+				check.EqualError(vm.Execute(t.script), t.err, "symbol %q test %q", n, nn)
+			} else {
+				check.NoError(vm.Execute(t.script), t.err, "symbol %q test %q", n, nn)
+			}
+		}
+	}
 }
 
 var _ Env = &mockEnv{}
