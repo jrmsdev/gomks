@@ -9,10 +9,7 @@ params["subtitle"] = "Lorem Ipsum"
 params["author"] = "Admin"
 
 if path_isfile("params.json") {
-	log("params found!")
-	//~ params.update("params.json")
-} else {
-	log("no params found!")
+	params.Update("params.json")
 }
 
 //~ page_layout = fread("layout/page.html")

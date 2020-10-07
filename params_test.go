@@ -31,7 +31,15 @@ func TestParamsNew(t *testing.T) {
 func TestParams(t *testing.T) {
 	check := require.New(t)
 	p := ParamsNew()
-	check.IsType(paramMap{}, p)
 	p["test"] = "ing"
 	check.Equal("ing", p["test"])
+}
+
+func TestParamsUpdate(t *testing.T) {
+	check := require.New(t)
+	p := ParamsNew()
+	p["test"] = "ing"
+	check.Equal("ing", p["test"])
+	p.Update("testdata/params/update.json")
+	check.Equal("testing", p["test"])
 }

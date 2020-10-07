@@ -4,7 +4,9 @@
 package gomks
 
 import (
+	"encoding/json"
 	"os"
+	"path/filepath"
 )
 
 var setenv func(string, string) error = os.Setenv
@@ -25,4 +27,15 @@ type paramMap map[string]string
 
 func ParamsNew() paramMap {
 	return paramMap{}
+}
+
+func (p paramMap) Update(filename string) {
+	fn := filepath.FromSlash(filename)
+	blob, err := fs.ReadFile(fn)
+	if err != nil {
+		Panic(err)
+	}
+	if err := json.Unmarshal(blob, &p); err != nil {
+		Panic(err)
+	}
 }
