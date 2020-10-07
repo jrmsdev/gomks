@@ -4,6 +4,7 @@
 package gomks
 
 import (
+	"errors"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -43,4 +44,21 @@ func TestCopyRmtree(t *testing.T) {
 	check.Equal(lstree(t, filepath.FromSlash("./testdata/shutil/tree")),
 		lstree(t, filepath.Join(tmpdir, "shutil", "tree")))
 	Rmtree(filepath.ToSlash(tmpdir))
+}
+
+func TestPathErrors(t *testing.T) {
+	check := require.New(t)
+	abspath = func(p string) (string, error) {
+		if p == "mock/abspath/error" {
+			return "", errors.New("mock error")
+		}
+		return p, nil
+	}
+	check.PanicsWithError("mock error", func() { Rmtree("mock/abspath/error") })
+	check.PanicsWithError("mock error",
+		func() { Copytree("mock/abspath/error", "fake/dest") })
+	check.PanicsWithError("mock error",
+		func() { Copytree("fake/source", "mock/abspath/error") })
+	check.PanicsWithValue("destination and source point to same path",
+		func() { Copytree("fake/same", "fake/same") })
 }

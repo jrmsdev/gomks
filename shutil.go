@@ -9,10 +9,12 @@ import (
 	"path/filepath"
 )
 
+var abspath func(string) (string, error) = filepath.Abs
+
 func Rmtree(dpath string) {
 	var err error
 	d := filepath.FromSlash(dpath)
-	d, err = filepath.Abs(d)
+	d, err = abspath(d)
 	if err != nil {
 		Panic(err)
 	}
@@ -31,12 +33,12 @@ func Rmtree(dpath string) {
 func Copytree(srcpath, dstpath string) {
 	var err error
 	sp := filepath.FromSlash(srcpath)
-	sp, err = filepath.Abs(srcpath)
+	sp, err = abspath(srcpath)
 	if err != nil {
 		Panic(err)
 	}
 	dp := filepath.FromSlash(dstpath)
-	dp, err = filepath.Abs(dstpath)
+	dp, err = abspath(dstpath)
 	if err != nil {
 		Panic(err)
 	}
