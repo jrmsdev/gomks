@@ -23,7 +23,7 @@ func TestPanic(t *testing.T) {
 	f := func() {
 		Panic("testing")
 	}
-	check.PanicsWithValue("testing", f)
+	check.PanicsWithError("testing", f)
 }
 
 func TestPanicf(t *testing.T) {
@@ -31,5 +31,5 @@ func TestPanicf(t *testing.T) {
 	f := func() {
 		Panicf("test%s", "ing")
 	}
-	check.PanicsWithValue("testing", f)
+	check.PanicsWithError("testing", f)
 }

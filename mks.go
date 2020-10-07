@@ -5,6 +5,7 @@
 package gomks
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -28,12 +29,13 @@ func Log(format string, v ...interface{}) {
 }
 
 func Panic(v interface{}) {
-	log.Output(2, fmt.Sprint(v))
-	panic(v)
+	msg := fmt.Sprint(v)
+	log.Output(2, msg)
+	panic(errors.New(msg))
 }
 
 func Panicf(format string, v ...interface{}) {
 	msg := fmt.Sprintf(format, v...)
 	log.Output(2, msg)
-	panic(msg)
+	panic(errors.New(msg))
 }
