@@ -62,3 +62,8 @@ func TestPathErrors(t *testing.T) {
 	check.PanicsWithValue("destination and source point to same path",
 		func() { Copytree("fake/same", "fake/same") })
 }
+
+func TestWalkError(t *testing.T) {
+	check := require.New(t)
+	check.Panics(func() { cptree("./testdata/notfound", "./testdata/_tmp") })
+}
