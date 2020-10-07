@@ -81,7 +81,7 @@ func cp(src, dst string) {
 		Panic(err)
 	}
 	defer sfh.Close()
-	if dfh, err = os.Create(dst); err != nil {
+	if dfh, err = fs.Create(dst); err != nil {
 		Panic(err)
 	}
 	defer dfh.Close()
