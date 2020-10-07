@@ -54,3 +54,15 @@ func TestParamsUpdateError(t *testing.T) {
 	check.PanicsWithError("mock read error",
 		func() { p.Update("testdata/params/update-error.json") })
 }
+
+func TestParamsCopy(t *testing.T) {
+	check := require.New(t)
+	p := ParamsNew()
+	p["test"] = "ing"
+	p["test2"] = "ing2"
+	cp := p.Copy()
+	check.Equal("ing", cp["test"])
+	check.Equal("ing2", cp["test2"])
+	cp["test"] = "testing"
+	check.Equal("ing", p["test"])
+}
