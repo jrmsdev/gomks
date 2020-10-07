@@ -13,11 +13,11 @@ if path_isfile("params.json") {
 }
 
 page_layout = fread("makesite/layout/page.html")
-//~ post_layout = fread("layout/post.html")
-//~ list_layout = fread("layout/list.html")
-//~ item_layout = fread("layout/item.html")
-//~ feed_xml = fread("layout/feed.xml")
-//~ item_xml = fread("layout/item.xml")
+post_layout = fread("makesite/layout/post.html")
+list_layout = fread("makesite/layout/list.html")
+item_layout = fread("makesite/layout/item.html")
+feed_xml = fread("makesite/layout/feed.xml")
+item_xml = fread("makesite/layout/item.xml")
 
 //~ post_layout = render(page_layout, content=post_layout)
 //~ list_layout = render(page_layout, content=list_layout)
