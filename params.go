@@ -29,20 +29,20 @@ func ParamsNew() paramMap {
 	return paramMap{}
 }
 
-func (p *paramMap) Update(filename string) {
+func (p paramMap) Update(filename string) {
 	fn := filepath.FromSlash(filename)
 	blob, err := fs.ReadFile(fn)
 	if err != nil {
 		Panic(err)
 	}
-	if err := json.Unmarshal(blob, p); err != nil {
+	if err := json.Unmarshal(blob, &p); err != nil {
 		Panic(err)
 	}
 }
 
-func (p *paramMap) Copy() paramMap {
+func (p paramMap) Copy() paramMap {
 	cp := ParamsNew()
-	for k, v := range *p {
+	for k, v := range p {
 		cp[k] = v
 	}
 	return cp
