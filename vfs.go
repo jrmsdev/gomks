@@ -5,6 +5,7 @@ package gomks
 
 import (
 	"io"
+	"io/ioutil"
 	"os"
 )
 
@@ -17,6 +18,7 @@ type fsi interface {
 	Create(string) (*os.File, error)
 	Open(string) (*os.File, error)
 	Stat(string) (os.FileInfo, error)
+	ReadAll(io.Reader) ([]byte, error)
 }
 
 type nativeFS struct {
@@ -54,4 +56,8 @@ func (n *nativeFS) Open(p string) (*os.File, error) {
 
 func (n *nativeFS) Stat(p string) (os.FileInfo, error) {
 	return os.Stat(p)
+}
+
+func (n *nativeFS) ReadAll(r io.Reader) ([]byte, error) {
+	return ioutil.ReadAll(r)
 }
