@@ -23,10 +23,10 @@ func Getenv(key string) {
 	os.Getenv(key)
 }
 
-type paramMap map[string]string
+type paramMap map[string]interface{}
 
 func ParamsNew() paramMap {
-	return paramMap{}
+	return make(paramMap)
 }
 
 func (p paramMap) Update(filename string) {
