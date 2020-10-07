@@ -90,3 +90,16 @@ func cp(src, dst string) {
 		Panic(err)
 	}
 }
+
+func PathIsFile(path string) bool {
+	p := filepath.FromSlash(path)
+	st, err := os.Stat(p)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return false
+		} else {
+			Panic(err)
+		}
+	}
+	return st.Mode().IsRegular()
+}

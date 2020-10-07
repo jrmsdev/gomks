@@ -57,6 +57,10 @@ var symTests = map[string]map[string]symt{
 	"getenv": {
 		"test": {`getenv("TESTING")`, ""},
 	},
+	"path_isfile": {
+		"test":     {`path_isfile("testdata/shutil")`, ""},
+		"notfound": {`path_isfile("testdata/shutil/found.not")`, ""},
+	},
 }
 
 func getSym(e *env.Env, n string) error {

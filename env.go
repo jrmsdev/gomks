@@ -23,6 +23,7 @@ func newEnv() *env.Env {
 	define(e, "params_new", ParamsNew)
 	define(e, "setenv_default", SetenvDefault)
 	define(e, "getenv", Getenv)
+	define(e, "path_isfile", PathIsFile)
 	return e
 }
 

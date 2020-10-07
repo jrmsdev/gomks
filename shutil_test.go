@@ -97,7 +97,8 @@ func TestCptreeError(t *testing.T) {
 	defer setNativeFS()
 	check.PanicsWithError("mock mkdir error", func() {
 		cptree(filepath.FromSlash("./testdata/shutil/tree"),
-			filepath.FromSlash("fake/dest")) })
+			filepath.FromSlash("fake/dest"))
+	})
 	tmpdir := filepath.FromSlash("./testdata/_tmp")
 	defer func() {
 		os.RemoveAll(tmpdir)

@@ -8,9 +8,12 @@ params["base_path"] = ""
 params["subtitle"] = "Lorem Ipsum"
 params["author"] = "Admin"
 
-//~ if fpath_exists("params.json") {
-	//~ params = params_update(params, "params.json")
-//~ }
+if path_isfile("params.json") {
+	log("params found!")
+	//~ params.update("params.json")
+} else {
+	log("no params found!")
+}
 
 //~ page_layout = fread("layout/page.html")
 //~ post_layout = fread("layout/post.html")

@@ -24,5 +24,5 @@ func TestSetenvError(t *testing.T) {
 	defer func() {
 		setenv = os.Setenv
 	}()
-	check.PanicsWithError("mock error", func() { SetenvDefault("TEST", "ing") } )
+	check.PanicsWithError("mock error", func() { SetenvDefault("TEST", "ing") })
 }
