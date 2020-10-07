@@ -33,6 +33,7 @@ func Panic(v interface{}) {
 }
 
 func Panicf(format string, v ...interface{}) {
-	log.Output(2, fmt.Sprintf(format, v...))
-	panic(v)
+	msg := fmt.Sprintf(format, v...)
+	log.Output(2, msg)
+	panic(msg)
 }

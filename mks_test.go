@@ -25,3 +25,11 @@ func TestPanic(t *testing.T) {
 	}
 	check.PanicsWithValue("testing", f)
 }
+
+func TestPanicf(t *testing.T) {
+	check := assert.New(t)
+	f := func() {
+		Panicf("test%s", "ing")
+	}
+	check.PanicsWithValue("testing", f)
+}
