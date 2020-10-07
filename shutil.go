@@ -10,7 +10,19 @@ import (
 )
 
 func Rmtree(dpath string) {
+	var err error
 	d := filepath.FromSlash(dpath)
+	d, err = filepath.Abs(d)
+	if err != nil {
+		Panic(err)
+	}
+	if st, err := os.Stat(d); err == nil {
+		if st.IsDir() {
+			Log("rmtree: %q", d)
+		} else {
+			Panicf("rmtree: %q is not a directory", d)
+		}
+	}
 	if err := os.RemoveAll(d); err != nil {
 		Panic(err)
 	}

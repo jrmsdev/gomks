@@ -40,6 +40,14 @@ var symTests = map[string]map[string]symt{
 	"panic": {
 		"test": {`panic("testing")`, "testing"},
 	},
+	"copytree": {
+		"test": {`copytree("testdata/shutil/tree", "testdata/_tmp/shutil/tree")`, ""},
+		"clean": {`rmtree("testdata/_tmp")`, ""},
+	},
+	"rmtree": {
+		"copy": {`copytree("testdata/shutil/tree", "testdata/_tmp/shutil/tree")`, ""},
+		"test": {`rmtree("testdata/_tmp")`, ""},
+	},
 }
 
 func getSym(e *env.Env, n string) error {

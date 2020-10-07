@@ -31,3 +31,8 @@ func Panic(v interface{}) {
 	log.Output(2, fmt.Sprint(v))
 	panic(v)
 }
+
+func Panicf(format string, v ...interface{}) {
+	log.Output(2, fmt.Sprintf(format, v...))
+	panic(v)
+}

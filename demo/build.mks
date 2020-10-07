@@ -1,7 +1,7 @@
 log("mks version v%s", version())
 
-//~ rmtree("_site")
-//~ copytree("static", "_site")
+rmtree("_site")
+copytree("makesite/static", "_site")
 
 //~ params = params_new()
 //~ params["base_path"] = ""

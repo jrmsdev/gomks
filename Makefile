@@ -52,4 +52,4 @@ fmt:
 
 .PHONY: demo
 demo: build
-	@./_build/cmd/mks.bin ./demo/build.mks
+	@(cd ./demo && ../_build/cmd/mks.bin build.mks)
