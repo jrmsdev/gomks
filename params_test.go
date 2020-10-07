@@ -11,11 +11,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestParamsNew(t *testing.T) {
-	check := require.New(t)
-	check.IsType(map[string]string{}, ParamsNew())
-}
-
 func TestSetenvError(t *testing.T) {
 	check := require.New(t)
 	setenv = func(k, v string) error {
@@ -25,4 +20,18 @@ func TestSetenvError(t *testing.T) {
 		setenv = os.Setenv
 	}()
 	check.PanicsWithError("mock error", func() { SetenvDefault("TEST", "ing") })
+}
+
+func TestParamsNew(t *testing.T) {
+	check := require.New(t)
+	p := ParamsNew()
+	check.IsType(paramMap{}, p)
+}
+
+func TestParams(t *testing.T) {
+	check := require.New(t)
+	p := ParamsNew()
+	check.IsType(paramMap{}, p)
+	p["test"] = "ing"
+	check.Equal("ing", p["test"])
 }

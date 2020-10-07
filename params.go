@@ -21,6 +21,8 @@ func Getenv(key string) {
 	os.Getenv(key)
 }
 
-func ParamsNew() map[string]string {
-	return make(map[string]string)
+type paramMap map[string]string
+
+func ParamsNew() paramMap {
+	return paramMap{}
 }
