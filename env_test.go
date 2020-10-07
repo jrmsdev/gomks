@@ -66,6 +66,9 @@ var symTests = map[string]map[string]symt{
 		"notfound": {`fread("testdata/shutil/found.not")`,
 			"open testdata/shutil/found.not: no such file or directory"},
 	},
+	"render": {
+		"test": {`render("testdata/render/test.html", params_new())`, ""},
+	},
 }
 
 func getSym(e *env.Env, n string) error {
@@ -82,9 +85,9 @@ func (s *EnvTestSuite) TestSymbols() {
 			vm := NewVM()
 			t := symTests[n][nn]
 			if t.err != "" {
-				check.EqualError(vm.Execute(t.script), t.err, "symbol %q test %q", n, nn)
+				check.EqualError(vm.Execute(t.script), t.err, "symbol %q %q", n, nn)
 			} else {
-				check.NoError(vm.Execute(t.script), t.err, "symbol %q test %q", n, nn)
+				check.NoError(vm.Execute(t.script), "symbol %q %q", n, nn)
 			}
 		}
 	}

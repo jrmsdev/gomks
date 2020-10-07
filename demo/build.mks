@@ -19,5 +19,10 @@ item_layout = fread("makesite/layout/item.html")
 feed_xml = fread("makesite/layout/feed.xml")
 item_xml = fread("makesite/layout/item.xml")
 
-//~ post_layout = render(page_layout, content=post_layout)
-//~ list_layout = render(page_layout, content=list_layout)
+args = params.Copy()
+
+args["content"] = post_layout
+post_layout = render(page_layout, args)
+
+args["content"] = list_layout
+list_layout = render(page_layout, args)
