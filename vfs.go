@@ -16,6 +16,7 @@ type fsi interface {
 	Copy(io.Writer, io.Reader) error
 	Create(string) (*os.File, error)
 	Open(string) (*os.File, error)
+	Stat(string) (os.FileInfo, error)
 }
 
 type nativeFS struct {
@@ -49,4 +50,8 @@ func (n *nativeFS) Create(p string) (*os.File, error) {
 
 func (n *nativeFS) Open(p string) (*os.File, error) {
 	return os.Open(p)
+}
+
+func (n *nativeFS) Stat(p string) (os.FileInfo, error) {
+	return os.Stat(p)
 }

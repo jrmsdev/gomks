@@ -93,7 +93,7 @@ func cp(src, dst string) {
 
 func PathIsFile(path string) bool {
 	p := filepath.FromSlash(path)
-	st, err := os.Stat(p)
+	st, err := fs.Stat(p)
 	if err != nil {
 		if os.IsNotExist(err) {
 			return false

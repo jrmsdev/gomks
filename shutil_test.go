@@ -121,3 +121,11 @@ func TestCpErrors(t *testing.T) {
 	setMockFS("WithOpenError")
 	check.PanicsWithError("mock open error", func() { cp(src, dst) })
 }
+
+func TestPathIsFileError(t *testing.T) {
+	check := require.New(t)
+	setMockFS("WithStatError")
+	defer setNativeFS()
+	p := filepath.FromSlash("./testdata/shutil/tree/00.txt")
+	check.PanicsWithError("mock stat error", func() { PathIsFile(p) })
+}
