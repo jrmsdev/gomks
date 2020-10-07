@@ -36,21 +36,34 @@ func Copytree(srcpath, dstpath string) {
 
 func cptree(srcd, dstd string) {
 	walk := func(path string, st os.FileInfo, err error) error {
+		//~ Log("walkfn %s", path)
 		if err != nil {
 			Panic(err)
 		}
+		var relp string
+		relp, err = filepath.Rel(srcd, path)
+		if err != nil {
+			Panic(err)
+		}
+		dst := filepath.Join(dstd, relp)
+		//~ Log("DST: %q", dst)
 		if st.IsDir() {
-			if err := os.MkdirAll(dstd, 0777); err != nil {
+			//~ if path != srcd {
+				//~ dn := filepath.Join(dstd, st.Name())
+				//~ Log("cptree: %q -> %q", path, dn)
+				//~ cptree(path, dn)
+			//~ }
+			if err := os.MkdirAll(dst, 0777); err != nil {
 				Panic(err)
 			}
-			cptree(filepath.Join(srcd, path), filepath.Join(dstd, path))
 		} else if st.Mode().IsRegular() {
-			cp(filepath.Join(srcd, path), filepath.Join(dstd, path))
+			cp(path, dst)
 		} else {
-			Log("copytree ignore non-regular file: %q", filepath.Join(srcd, path))
+			Log("WARN: copytree ignore non-regular file: %q", path)
 		}
 		return nil
 	}
+	//~ Log("walk %s", srcd)
 	filepath.Walk(srcd, walk)
 }
 
@@ -66,6 +79,7 @@ func cp(src, dst string) {
 		Panic(err)
 	}
 	defer dfh.Close()
+	Log("cp: %q -> %q", src, dst)
 	if _, err = io.Copy(dfh, sfh); err != nil {
 		Panic(err)
 	}

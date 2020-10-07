@@ -4,12 +4,22 @@
 package gomks
 
 import (
+	"io/ioutil"
+	"os"
+	"path/filepath"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
-func TestRmtree(t *testing.T) {
-	check := assert.New(t)
-	check.Equal(version, Version())
+func TestCopyRmtree(t *testing.T) {
+	check := require.New(t)
+	tmpdir, err := ioutil.TempDir("", "gomks.shutil_test")
+	check.NoError(err)
+	defer func() {
+		os.RemoveAll(tmpdir)
+	}()
+	t.Logf("tmpdir: %s", tmpdir)
+	Copytree("./testdata/shutil/tree", filepath.ToSlash(filepath.Join(tmpdir, "shutil", "tree")))
+	Rmtree(tmpdir)
 }
