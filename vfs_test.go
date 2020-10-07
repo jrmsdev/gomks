@@ -12,9 +12,16 @@ type mockFS struct {
 	WithRemoveError bool
 }
 
-func setMockFS() {
+func setMockFS(args ...string) {
+	m := &mockFS{fs: &nativeFS{}}
+	for _, a := range args {
+		switch a {
+		case "WithRemoveError":
+			m.WithRemoveError = true
+		}
+	}
 	fs = nil
-	fs = &mockFS{fs: &nativeFS{}}
+	fs = m
 }
 
 func (m *mockFS) RemoveAll(p string) error {

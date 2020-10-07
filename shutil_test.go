@@ -82,3 +82,11 @@ func TestWalkError(t *testing.T) {
 	check := require.New(t)
 	check.Panics(func() { cptree("./testdata/notfound", "./testdata/_tmp") })
 }
+
+func TestRmtreeError(t *testing.T) {
+	check := require.New(t)
+	setMockFS("WithRemoveError")
+	defer setNativeFS()
+	check.PanicsWithError("mock remove error",
+		func() { Rmtree("./testdata/shutil/rmtree") })
+}
