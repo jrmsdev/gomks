@@ -10,6 +10,7 @@ import (
 )
 
 var abspath func(string) (string, error) = filepath.Abs
+var relpath func(string, string) (string, error) = filepath.Rel
 
 func Rmtree(dpath string) {
 	var err error
@@ -54,7 +55,7 @@ func cptree(srcd, dstd string) {
 			Panic(err)
 		}
 		var relp string
-		relp, err = filepath.Rel(srcd, path)
+		relp, err = relpath(srcd, path)
 		if err != nil {
 			Panic(err)
 		}

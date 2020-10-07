@@ -41,7 +41,7 @@ var symTests = map[string]map[string]symt{
 		"test": {`panic("testing")`, "testing"},
 	},
 	"copytree": {
-		"test": {`copytree("testdata/shutil/tree", "testdata/_tmp/shutil/tree")`, ""},
+		"test":  {`copytree("testdata/shutil/tree", "testdata/_tmp/shutil/tree")`, ""},
 		"clean": {`rmtree("testdata/_tmp")`, ""},
 	},
 	"rmtree": {

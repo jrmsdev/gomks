@@ -54,6 +54,9 @@ func TestPathErrors(t *testing.T) {
 		}
 		return p, nil
 	}
+	defer func() {
+		abspath = filepath.Abs
+	}()
 	check.PanicsWithError("mock error", func() { Rmtree("mock/abspath/error") })
 	check.PanicsWithError("mock error",
 		func() { Copytree("mock/abspath/error", "fake/dest") })
@@ -63,6 +66,16 @@ func TestPathErrors(t *testing.T) {
 		func() { Copytree("fake/same", "fake/same") })
 	check.PanicsWithError(`rmtree: "testdata/shutil/rmtree.txt" is not a directory`,
 		func() { Rmtree("testdata/shutil/rmtree.txt") })
+	relpath = func(p string, t string) (string, error) {
+		return "", errors.New("mock error")
+	}
+	defer func() {
+		relpath = filepath.Rel
+	}()
+	check.PanicsWithError("mock error", func() {
+		cptree(filepath.FromSlash("./testdata/shutil/tree"),
+			filepath.FromSlash("fake/dest"))
+	})
 }
 
 func TestWalkError(t *testing.T) {

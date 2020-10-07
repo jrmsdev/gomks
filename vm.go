@@ -18,7 +18,7 @@ type VM interface {
 }
 
 type vms struct {
-	env  *env.Env
+	env *env.Env
 }
 
 func NewVM() *vms {
