@@ -5,12 +5,14 @@ package gomks
 
 import (
 	"errors"
+	"io"
 )
 
 type mockFS struct {
 	fs              fsi
 	WithRemoveError bool
 	WithMkdirError  bool
+	WithCopyError   bool
 }
 
 func setMockFS(args ...string) {
@@ -21,6 +23,8 @@ func setMockFS(args ...string) {
 			m.WithRemoveError = true
 		case "WithMkdirError":
 			m.WithMkdirError = true
+		case "WithCopyError":
+			m.WithCopyError = true
 		}
 	}
 	fs = nil
@@ -39,4 +43,11 @@ func (m *mockFS) MkdirAll(p string) error {
 		return errors.New("mock mkdir error")
 	}
 	return m.fs.MkdirAll(p)
+}
+
+func (m *mockFS) Copy(dst io.Writer, src io.Reader) error {
+	if m.WithCopyError {
+		return errors.New("mock copy error")
+	}
+	return m.fs.Copy(dst, src)
 }
