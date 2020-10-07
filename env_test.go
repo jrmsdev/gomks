@@ -61,6 +61,11 @@ var symTests = map[string]map[string]symt{
 		"test":     {`path_isfile("testdata/shutil")`, ""},
 		"notfound": {`path_isfile("testdata/shutil/found.not")`, ""},
 	},
+	"fread": {
+		"test": {`fread("testdata/shutil/tree/00.txt")`, ""},
+		"notfound": {`fread("testdata/shutil/found.not")`,
+			"open testdata/shutil/found.not: no such file or directory"},
+	},
 }
 
 func getSym(e *env.Env, n string) error {

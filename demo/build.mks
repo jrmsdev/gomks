@@ -12,7 +12,7 @@ if path_isfile("params.json") {
 	params.Update("params.json")
 }
 
-//~ page_layout = fread("layout/page.html")
+page_layout = fread("makesite/layout/page.html")
 //~ post_layout = fread("layout/post.html")
 //~ list_layout = fread("layout/list.html")
 //~ item_layout = fread("layout/item.html")

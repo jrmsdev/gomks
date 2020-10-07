@@ -103,3 +103,12 @@ func PathIsFile(path string) bool {
 	}
 	return st.Mode().IsRegular()
 }
+
+func Fread(filename string) string {
+	p := filepath.FromSlash(filename)
+	blob, err := fs.ReadFile(p)
+	if err != nil {
+		Panic(err)
+	}
+	return string(blob)
+}
