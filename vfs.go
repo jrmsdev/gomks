@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-var fs fsi = &nativeFS{}
+var fs fsi
 
 type fsi interface {
 	RemoveAll(string) error
@@ -16,6 +16,15 @@ type fsi interface {
 type nativeFS struct {
 }
 
+func setNativeFS() {
+	fs = nil
+	fs = &nativeFS{}
+}
+
 func (n *nativeFS) RemoveAll(p string) error {
 	return os.RemoveAll(p)
+}
+
+func init() {
+	setNativeFS()
 }
