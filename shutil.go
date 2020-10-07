@@ -26,7 +26,7 @@ func Rmtree(dpath string) {
 			Panicf("rmtree: %q is not a directory", d)
 		}
 	}
-	if err := os.RemoveAll(d); err != nil {
+	if err := fs.RemoveAll(d); err != nil {
 		Panic(err)
 	}
 }
