@@ -117,4 +117,6 @@ func TestCpErrors(t *testing.T) {
 	check.PanicsWithError("mock copy error", func() { cp(src, dst) })
 	setMockFS("WithCreateError")
 	check.PanicsWithError("mock create error", func() { cp(src, dst) })
+	setMockFS("WithOpenError")
+	check.PanicsWithError("mock open error", func() { cp(src, dst) })
 }

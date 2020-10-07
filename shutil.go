@@ -77,7 +77,7 @@ func cp(src, dst string) {
 	var err error
 	var sfh *os.File
 	var dfh *os.File
-	if sfh, err = os.Open(src); err != nil {
+	if sfh, err = fs.Open(src); err != nil {
 		Panic(err)
 	}
 	defer sfh.Close()
