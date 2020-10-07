@@ -86,9 +86,9 @@ func (m *mockFS) Stat(p string) (os.FileInfo, error) {
 	return m.fs.Stat(p)
 }
 
-func (m *mockFS) ReadAll(r io.Reader) ([]byte, error) {
+func (m *mockFS) ReadFile(p string) ([]byte, error) {
 	if m.WithReadError {
 		return nil, errors.New("mock read error")
 	}
-	return m.fs.ReadAll(r)
+	return m.fs.ReadFile(p)
 }
