@@ -48,11 +48,14 @@ var symTests = map[string]map[string]symt{
 		"copy": {`copytree("testdata/shutil/tree", "testdata/_tmp/shutil/tree")`, ""},
 		"test": {`rmtree("testdata/_tmp")`, ""},
 	},
-	"args_new": {
-		"test": {"args = args_new()", ""},
-	},
 	"params_new": {
 		"test": {"args = params_new()", ""},
+	},
+	"setenv_default": {
+		"test": {`setenv_default("TESTING", "gomks")`, ""},
+	},
+	"getenv": {
+		"test": {`getenv("TESTING")`, ""},
 	},
 }
 

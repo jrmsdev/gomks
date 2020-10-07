@@ -20,8 +20,9 @@ func newEnv() *env.Env {
 	define(e, "panic", Panic)
 	define(e, "rmtree", Rmtree)
 	define(e, "copytree", Copytree)
-	define(e, "args_new", ArgsNew)
 	define(e, "params_new", ParamsNew)
+	define(e, "setenv_default", SetenvDefault)
+	define(e, "getenv", Getenv)
 	return e
 }
 
