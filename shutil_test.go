@@ -12,6 +12,25 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func lstree(t *testing.T, dpath string) []string {
+	ls := make([]string, 0)
+	walk := func(path string, st os.FileInfo, err error) error {
+		if err != nil {
+			t.Fatal(err)
+		}
+		if st.Mode().IsRegular() {
+			relp, err := filepath.Rel(dpath, path)
+			if err != nil {
+				t.Fatal(err)
+			}
+			ls = append(ls, relp)
+		}
+		return nil
+	}
+	filepath.Walk(dpath, walk)
+	return ls
+}
+
 func TestCopyRmtree(t *testing.T) {
 	check := require.New(t)
 	tmpdir, err := ioutil.TempDir("", "gomks.shutil_test")
@@ -21,5 +40,7 @@ func TestCopyRmtree(t *testing.T) {
 	}()
 	t.Logf("tmpdir: %s", tmpdir)
 	Copytree("./testdata/shutil/tree", filepath.ToSlash(filepath.Join(tmpdir, "shutil", "tree")))
-	Rmtree(tmpdir)
+	check.Equal(lstree(t, filepath.FromSlash("./testdata/shutil/tree")),
+		lstree(t, filepath.Join(tmpdir, "shutil", "tree")))
+	Rmtree(filepath.ToSlash(tmpdir))
 }
