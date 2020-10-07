@@ -59,8 +59,10 @@ func TestPathErrors(t *testing.T) {
 		func() { Copytree("mock/abspath/error", "fake/dest") })
 	check.PanicsWithError("mock error",
 		func() { Copytree("fake/source", "mock/abspath/error") })
-	check.PanicsWithValue("destination and source point to same path",
+	check.PanicsWithError("destination and source point to same path",
 		func() { Copytree("fake/same", "fake/same") })
+	check.PanicsWithError(`rmtree: "testdata/shutil/rmtree.txt" is not a directory`,
+		func() { Rmtree("testdata/shutil/rmtree.txt") })
 }
 
 func TestWalkError(t *testing.T) {
