@@ -48,7 +48,6 @@ func Copytree(srcpath, dstpath string) {
 
 func cptree(srcd, dstd string) {
 	walk := func(path string, st os.FileInfo, err error) error {
-		//~ Log("walkfn %s", path)
 		if err != nil {
 			Panic(err)
 		}
@@ -58,13 +57,7 @@ func cptree(srcd, dstd string) {
 			Panic(err)
 		}
 		dst := filepath.Join(dstd, relp)
-		//~ Log("DST: %q", dst)
 		if st.IsDir() {
-			//~ if path != srcd {
-				//~ dn := filepath.Join(dstd, st.Name())
-				//~ Log("cptree: %q -> %q", path, dn)
-				//~ cptree(path, dn)
-			//~ }
 			if err := os.MkdirAll(dst, 0777); err != nil {
 				Panic(err)
 			}
@@ -75,7 +68,6 @@ func cptree(srcd, dstd string) {
 		}
 		return nil
 	}
-	//~ Log("walk %s", srcd)
 	filepath.Walk(srcd, walk)
 }
 
