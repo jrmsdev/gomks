@@ -104,3 +104,15 @@ func TestCptreeError(t *testing.T) {
 	}()
 	cptree(os.DevNull, tmpdir)
 }
+
+func TestCpErrors(t *testing.T) {
+	check := require.New(t)
+	setMockFS("WithCopyError")
+	defer setNativeFS()
+	src := filepath.FromSlash("./testdata/shutil/tree/00.txt")
+	dst := filepath.FromSlash("./testdata/_tmp")
+	defer func() {
+		os.RemoveAll(dst)
+	}()
+	check.PanicsWithError("mock copy error", func() { cp(src, dst) })
+}

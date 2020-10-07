@@ -4,7 +4,6 @@
 package gomks
 
 import (
-	"io"
 	"os"
 	"path/filepath"
 )
@@ -87,7 +86,7 @@ func cp(src, dst string) {
 	}
 	defer dfh.Close()
 	Log("cp: %q -> %q", src, dst)
-	if _, err = io.Copy(dfh, sfh); err != nil {
+	if err = fs.Copy(dfh, sfh); err != nil {
 		Panic(err)
 	}
 }
