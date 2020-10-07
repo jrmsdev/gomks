@@ -1,4 +1,5 @@
 PKG ?= ./...
+ARGS ?=
 MOD := github.com/jrmsdev/gomks
 
 .PHONY: default
@@ -27,7 +28,7 @@ distclean:
 
 .PHONY: test
 test: build
-	@(MKSLOG=debug go test -mod vendor $(PKG))
+	@(MKSLOG=debug go test -mod vendor $(ARGS) $(PKG))
 
 .PHONY: testclean
 testclean:
