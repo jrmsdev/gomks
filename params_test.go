@@ -43,3 +43,14 @@ func TestParamsUpdate(t *testing.T) {
 	p.Update("testdata/params/update.json")
 	check.Equal("testing", p["test"])
 }
+
+func TestParamsUpdateError(t *testing.T) {
+	check := require.New(t)
+	p := ParamsNew()
+	check.PanicsWithError("invalid character '}' looking for beginning of value",
+		func() { p.Update("testdata/params/update-error.json") })
+	setMockFS("WithReadError")
+	defer setNativeFS()
+	check.PanicsWithError("mock read error",
+		func() { p.Update("testdata/params/update-error.json") })
+}
