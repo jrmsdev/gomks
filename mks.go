@@ -12,7 +12,7 @@ import (
 )
 
 func init() {
-	log.SetFlags(log.Lmsgprefix)
+	log.SetFlags(0)
 	if os.Getenv("MKSLOG") == "debug" {
 		log.SetFlags(log.Llongfile)
 	}
