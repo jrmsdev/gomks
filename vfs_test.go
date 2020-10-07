@@ -10,6 +10,7 @@ import (
 type mockFS struct {
 	fs              fsi
 	WithRemoveError bool
+	WithMkdirError  bool
 }
 
 func setMockFS(args ...string) {
@@ -18,6 +19,8 @@ func setMockFS(args ...string) {
 		switch a {
 		case "WithRemoveError":
 			m.WithRemoveError = true
+		case "WithMkdirError":
+			m.WithMkdirError = true
 		}
 	}
 	fs = nil
@@ -29,4 +32,11 @@ func (m *mockFS) RemoveAll(p string) error {
 		return errors.New("mock remove error")
 	}
 	return m.fs.RemoveAll(p)
+}
+
+func (m *mockFS) MkdirAll(p string) error {
+	if m.WithMkdirError {
+		return errors.New("mock mkdir error")
+	}
+	return m.fs.MkdirAll(p)
 }

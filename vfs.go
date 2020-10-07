@@ -11,6 +11,7 @@ var fs fsi
 
 type fsi interface {
 	RemoveAll(string) error
+	MkdirAll(string) error
 }
 
 type nativeFS struct {
@@ -21,10 +22,14 @@ func setNativeFS() {
 	fs = &nativeFS{}
 }
 
+func init() {
+	setNativeFS()
+}
+
 func (n *nativeFS) RemoveAll(p string) error {
 	return os.RemoveAll(p)
 }
 
-func init() {
-	setNativeFS()
+func (n *nativeFS) MkdirAll(p string) error {
+	return os.MkdirAll(p, 0777)
 }
