@@ -90,3 +90,17 @@ func TestRmtreeError(t *testing.T) {
 	check.PanicsWithError("mock remove error",
 		func() { Rmtree("./testdata/shutil/rmtree") })
 }
+
+func TestCptreeError(t *testing.T) {
+	check := require.New(t)
+	setMockFS("WithMkdirError")
+	defer setNativeFS()
+	check.PanicsWithError("mock mkdir error", func() {
+		cptree(filepath.FromSlash("./testdata/shutil/tree"),
+			filepath.FromSlash("fake/dest")) })
+	tmpdir := filepath.FromSlash("./testdata/_tmp")
+	defer func() {
+		os.RemoveAll(tmpdir)
+	}()
+	cptree(os.DevNull, tmpdir)
+}

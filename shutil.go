@@ -61,7 +61,7 @@ func cptree(srcd, dstd string) {
 		}
 		dst := filepath.Join(dstd, relp)
 		if st.IsDir() {
-			if err := os.MkdirAll(dst, 0777); err != nil {
+			if err := fs.MkdirAll(dst); err != nil {
 				Panic(err)
 			}
 		} else if st.Mode().IsRegular() {
