@@ -15,6 +15,7 @@ type fsi interface {
 	MkdirAll(string) error
 	Copy(io.Writer, io.Reader) error
 	Create(string) (*os.File, error)
+	Open(string) (*os.File, error)
 }
 
 type nativeFS struct {
@@ -44,4 +45,8 @@ func (n *nativeFS) Copy(dst io.Writer, src io.Reader) error {
 
 func (n *nativeFS) Create(p string) (*os.File, error) {
 	return os.Create(p)
+}
+
+func (n *nativeFS) Open(p string) (*os.File, error) {
+	return os.Open(p)
 }
