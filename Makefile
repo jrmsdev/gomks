@@ -9,12 +9,12 @@ default: build
 build: _build/version
 	@mkdir -p ./_build/cmd
 	@go build -v -mod vendor -i -o ./_build/cmd/mks.bin \
-		-ldflags "-X $(MOD).version=`cat ./_build/version`" ./cmd/mks
+		-ldflags "-X $(MOD).build=`cat ./_build/version`" ./cmd/mks
 
 .PHONY: _build/version
 _build/version:
 	@mkdir -p ./_build
-	@echo "`cat VERSION.txt`-`date -u '+%Y%m%d.%H%M%S'`-`git describe --always --dirty`" >./_build/version
+	@echo "`date -u '+%Y%m%d.%H%M%S'`-`git describe --always --dirty`" >./_build/version
 
 .PHONY: clean
 clean:
