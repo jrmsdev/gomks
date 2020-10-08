@@ -47,6 +47,12 @@ vendor:
 	@go mod tidy
 	@$(MAKE) fmt >/dev/null
 
+.PHONY: vendor-upgrade
+vendor-upgrade:
+	@mkdir -p ./_build
+	@(echo 'github.com/jrmsdev/gomks'; echo ''; echo 'go 1.15') >./_build/go.mod
+	@$(MAKE) vendor
+
 .PHONY: fmt
 fmt:
 	@gofmt -w -l -s .
