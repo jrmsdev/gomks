@@ -67,7 +67,7 @@ var symTests = map[string]map[string]symt{
 			"open testdata/shutil/found.not: no such file or directory"},
 	},
 	"render": {
-		"test": {`render("testdata/render/test.html", params_new())`, ""},
+		"test": {`render(fread("testdata/render/test.html"), params_new())`, ""},
 	},
 }
 
