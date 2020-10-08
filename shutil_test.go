@@ -13,6 +13,10 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func getTestingPath(s string) string {
+	return filepath.FromSlash(s)
+}
+
 func lstree(t *testing.T, dpath string) []string {
 	ls := make([]string, 0)
 	walk := func(path string, st os.FileInfo, err error) error {

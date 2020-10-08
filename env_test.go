@@ -20,9 +20,11 @@ type EnvTestSuite struct {
 }
 
 func (s *EnvTestSuite) SetupTest() {
+	getpath = getTestingPath
 }
 
 func (s *EnvTestSuite) TearDownTest() {
+	getpath = getAbsPath
 }
 
 type symt struct {

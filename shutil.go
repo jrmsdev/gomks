@@ -10,8 +10,9 @@ import (
 
 var abspath func(string) (string, error) = filepath.Abs
 var relpath func(string, string) (string, error) = filepath.Rel
+var getpath func(s string) string = getAbsPath
 
-func getpath(s string) string {
+func getAbsPath(s string) string {
 	var err error
 	p := filepath.FromSlash(s)
 	p, err = abspath(p)
