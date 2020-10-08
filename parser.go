@@ -25,6 +25,10 @@ func Render(tpl string, params paramMap) string {
 	return buf.String()
 }
 
+func readHeaders(text string) paramMap {
+	return paramMap{}
+}
+
 var reDateSlug *regexp.Regexp
 
 func init() {

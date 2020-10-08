@@ -24,7 +24,7 @@ feed_xml = fread("makesite/layout/feed.xml")
 item_xml = fread("makesite/layout/item.xml")
 
 // Combine layouts to form final layouts.
-args = params.Copy()
+args = params_new()
 
 args["content"] = post_layout
 post_layout = render(page_layout, args)

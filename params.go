@@ -39,11 +39,3 @@ func (p paramMap) Update(filename string) {
 		Panic(err)
 	}
 }
-
-func (p paramMap) Copy() paramMap {
-	cp := ParamsNew()
-	for k, v := range p {
-		cp[k] = v
-	}
-	return cp
-}
