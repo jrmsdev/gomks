@@ -6,6 +6,9 @@ package gomks
 import (
 	"bytes"
 	"html/template"
+	"path/filepath"
+	"regexp"
+	"strings"
 )
 
 func Render(tpl string, params paramMap) string {
@@ -22,7 +25,25 @@ func Render(tpl string, params paramMap) string {
 	return buf.String()
 }
 
-func readContent(fn string) string {
-	var c string
+var reDateSlug *regexp.Regexp
+
+func init() {
+	reDateSlug = regexp.MustCompile(`^(?:(\d\d\d\d-\d\d-\d\d)-)?(.+)$`)
+}
+
+func readContent(fn string) paramMap {
+	c := ParamsNew()
+	_, err := fs.ReadFile(fn)
+	if err != nil {
+		Panic(err)
+	}
+	fn, err = filepath.Abs(fn)
+	dateSlug := strings.Split(filepath.Base(fn), ".")[0]
+	match := reDateSlug.FindStringSubmatch(dateSlug)
+	c["date"] = match[1]
+	if c["date"] == "" {
+		c["date"] = "1970-01-01"
+	}
+	c["slug"] = match[2]
 	return c
 }
