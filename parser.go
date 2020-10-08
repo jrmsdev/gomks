@@ -11,8 +11,8 @@ import (
 	"strings"
 )
 
-func Render(tpl string, params paramMap) string {
-	t, err := template.New("mks").Parse(tpl)
+func Render(tpl *Content, params paramMap) string {
+	t, err := template.New(tpl.Filename()).Parse(tpl.String())
 	if err != nil {
 		Panic(err)
 	}

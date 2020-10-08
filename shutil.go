@@ -104,11 +104,11 @@ func PathIsFile(path string) bool {
 	return st.Mode().IsRegular()
 }
 
-func Fread(filename string) string {
+func Fread(filename string) *Content {
 	p := filepath.FromSlash(filename)
 	blob, err := fs.ReadFile(p)
 	if err != nil {
 		Panic(err)
 	}
-	return string(blob)
+	return newContent(filename, blob)
 }
