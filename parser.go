@@ -21,3 +21,8 @@ func Render(tpl string, params paramMap) string {
 	defer buf.Reset()
 	return buf.String()
 }
+
+func readContent(fn string) string {
+	var c string
+	return c
+}
