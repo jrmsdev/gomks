@@ -85,10 +85,10 @@ func cp(src, dst string) {
 		Panic(err)
 	}
 	defer dfh.Close()
-	Log("cp: %q -> %q", src, dst)
 	if err = fs.Copy(dfh, sfh); err != nil {
 		Panic(err)
 	}
+	Log("cp: %q -> %q", src, dst)
 }
 
 func PathIsFile(path string) bool {
@@ -105,8 +105,16 @@ func PathIsFile(path string) bool {
 }
 
 func Fread(filename string) *Content {
+	var (
+		err error
+		blob []byte
+	)
 	p := filepath.FromSlash(filename)
-	blob, err := fs.ReadFile(p)
+	p, err = abspath(p)
+	if err != nil {
+		Panic(err)
+	}
+	blob, err = fs.ReadFile(p)
 	if err != nil {
 		Panic(err)
 	}
