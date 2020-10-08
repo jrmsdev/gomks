@@ -12,7 +12,7 @@ params["author"] = "Admin"
 
 // If params.json exists, load it.
 if path_isfile("params.json") {
-	params.Update("params.json")
+	params.Load("params.json")
 }
 
 // Load layouts.
@@ -25,10 +25,8 @@ item_xml = fread("makesite/layout/item.xml")
 
 // Combine layouts to form final layouts.
 args = params_new()
-
 args["content"] = post_layout
 post_layout = render(page_layout, args)
-
 args["content"] = list_layout
 list_layout = render(page_layout, args)
 

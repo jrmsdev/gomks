@@ -29,7 +29,7 @@ func ParamsNew() paramMap {
 	return make(paramMap)
 }
 
-func (p paramMap) Update(filename string) {
+func (p paramMap) Load(filename string) {
 	fn := filepath.FromSlash(filename)
 	blob, err := fs.ReadFile(fn)
 	if err != nil {
