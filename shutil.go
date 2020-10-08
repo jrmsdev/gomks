@@ -11,37 +11,33 @@ import (
 var abspath func(string) (string, error) = filepath.Abs
 var relpath func(string, string) (string, error) = filepath.Rel
 
-func Rmtree(dpath string) {
+func getpath(s string) string {
 	var err error
-	d := filepath.FromSlash(dpath)
-	d, err = abspath(d)
+	p := filepath.FromSlash(s)
+	p, err = abspath(p)
 	if err != nil {
 		Panic(err)
 	}
-	if st, err := os.Stat(d); err == nil {
+	return p
+}
+
+func Rmtree(path string) {
+	path = getpath(path)
+	if st, err := os.Stat(path); err == nil {
 		if st.IsDir() {
-			Log("rmtree: %q", d)
+			Log("rmtree: %q", path)
 		} else {
-			Panicf("rmtree: %q is not a directory", d)
+			Panicf("rmtree: %q is not a directory", path)
 		}
 	}
-	if err := fs.RemoveAll(d); err != nil {
+	if err := fs.RemoveAll(path); err != nil {
 		Panic(err)
 	}
 }
 
 func Copytree(srcpath, dstpath string) {
-	var err error
-	sp := filepath.FromSlash(srcpath)
-	sp, err = abspath(srcpath)
-	if err != nil {
-		Panic(err)
-	}
-	dp := filepath.FromSlash(dstpath)
-	dp, err = abspath(dstpath)
-	if err != nil {
-		Panic(err)
-	}
+	sp := getpath(srcpath)
+	dp := getpath(dstpath)
 	if dp == sp {
 		Panic("destination and source point to same path")
 	}
@@ -92,8 +88,8 @@ func cp(src, dst string) {
 }
 
 func PathIsFile(path string) bool {
-	p := filepath.FromSlash(path)
-	st, err := fs.Stat(p)
+	path = getpath(path)
+	st, err := fs.Stat(path)
 	if err != nil {
 		if os.IsNotExist(err) {
 			return false
@@ -105,16 +101,8 @@ func PathIsFile(path string) bool {
 }
 
 func Fread(filename string) *Content {
-	var (
-		err error
-		blob []byte
-	)
-	p := filepath.FromSlash(filename)
-	p, err = abspath(p)
-	if err != nil {
-		Panic(err)
-	}
-	blob, err = fs.ReadFile(p)
+	filename = getpath(filename)
+	blob, err := fs.ReadFile(filename)
 	if err != nil {
 		Panic(err)
 	}
