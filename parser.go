@@ -21,7 +21,6 @@ func Render(tpl *Content, params paramMap) string {
 	if err != nil {
 		Panic(err)
 	}
-	Log("render: %q", tpl.Filename())
 	defer buf.Reset()
 	return buf.String()
 }
