@@ -42,7 +42,6 @@ func readContent(fn string) paramMap {
 	if err != nil {
 		Panic(err)
 	}
-	fn, err = filepath.Abs(fn)
 	dateSlug := strings.Split(filepath.Base(fn), ".")[0]
 	match := reDateSlug.FindStringSubmatch(dateSlug)
 	c["date"] = match[1]
