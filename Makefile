@@ -24,6 +24,7 @@ clean:
 
 .PHONY: distclean
 distclean:
+	@$(MAKE) clean testclean
 	@go clean -mod vendor -i -cache -modcache -testcache $(PKG)
 
 .PHONY: test
