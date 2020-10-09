@@ -50,3 +50,6 @@ func readContent(fn string) paramMap {
 	c["slug"] = match[2]
 	return c
 }
+
+func MakePages(src, dst string, layout *Content, params paramMap) {
+}

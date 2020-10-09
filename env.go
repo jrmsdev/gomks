@@ -26,6 +26,7 @@ func newEnv() *env.Env {
 	define(e, "path_isfile", PathIsFile)
 	define(e, "fread", Fread)
 	define(e, "render", Render)
+	define(e, "make_pages", MakePages)
 	return e
 }
 
