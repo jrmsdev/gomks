@@ -11,8 +11,8 @@ params["subtitle"] = "Lorem Ipsum"
 params["author"] = "Admin"
 
 // If params.json exists, load it.
-if path_isfile("params.json") {
-	params.Load("params.json")
+if path_isfile("makesite/params.json") {
+	params.Load("makesite/params.json")
 }
 
 // Load layouts.

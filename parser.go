@@ -20,7 +20,7 @@ var (
 
 func init() {
 	reDateSlug = regexp.MustCompile(`^(?:(\d\d\d\d-\d\d-\d\d)-)?(.+)$`)
-	reHeader = regexp.MustCompile(`^<!--\s*([^:]+):\s+(.*)\s*-->\r?\n`)
+	reHeader = regexp.MustCompile(`^<!--\s*([^\s]+):\s+(.*)\s*-->\r?\n`)
 }
 
 func Render(tpl *Content, params paramMap) string {
@@ -43,14 +43,14 @@ type header struct {
 	end int
 }
 
-func readHeaders(text string) *header {
-	match := reHeader.FindStringSubmatch(text)
+func readHeaders(blob []byte) *header {
+	match := reHeader.FindSubmatch(blob)
 	if len(match) == 0 {
 		return &header{"", nil, -1}
 	}
 	h := &header{}
-	h.key = match[1]
-	if err := json.Unmarshal([]byte(match[2]), &h.val); err != nil {
+	h.key = string(match[1])
+	if err := json.Unmarshal(match[2], &h.val); err != nil {
 		Panic(err)
 	}
 	h.end = len(match[0])
@@ -79,15 +79,14 @@ func readContent(fn string) paramMap {
 	}
 	c["slug"] = match[2]
 	// read headers
-	text := string(blob)
-	for h := readHeaders(text); h.end > 0; h = readHeaders(text) {
+	for h := readHeaders(blob); h.end > 0; h = readHeaders(blob) {
 		c[h.key] = h.val
-		text = text[h.end:]
+		blob = blob[h.end:]
 	}
 	// TODO: convert markdown
 	// update content
 	c["rfc_date"] = date.Format(time.RFC1123Z)
-	c["content"] = text
+	c["content"] = string(blob)
 	return c
 }
 
