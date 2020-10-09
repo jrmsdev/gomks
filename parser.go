@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+	"time"
 )
 
 var (
@@ -66,9 +67,15 @@ func readContent(fn string) paramMap {
 	// get date and slug info
 	dateSlug := strings.Split(filepath.Base(fn), ".")[0]
 	match := reDateSlug.FindStringSubmatch(dateSlug)
-	c["date"] = match[1]
-	if c["date"] == "" {
+	var date time.Time
+	if match[1] == "" {
 		c["date"] = "1970-01-01"
+		date = time.Date(1970, time.January, 1, 0, 0, 0, 0, time.UTC)
+	} else {
+		c["date"] = match[1]
+		if date, err = time.Parse("2006-01-02", match[1]); err != nil {
+			Panic(err)
+		}
 	}
 	c["slug"] = match[2]
 	// read headers
@@ -77,6 +84,10 @@ func readContent(fn string) paramMap {
 		c[h.key] = h.val
 		text = text[h.end:]
 	}
+	// TODO: convert markdown
+	// update content
+	c["rfc_date"] = date.Format(time.RFC1123Z)
+	c["content"] = text
 	return c
 }
 
