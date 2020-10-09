@@ -72,7 +72,8 @@ var symTests = map[string]map[string]symt{
 		"test": {`render(fread("testdata/render/test.html"), params_new())`, ""},
 	},
 	"make_pages": {
-		"test": {`make_pages("", "", "", params_new())`, ""},
+		"test": {`make_pages("", "",
+			fread("testdata/render/test.html"), params_new())`, ""},
 	},
 }
 
