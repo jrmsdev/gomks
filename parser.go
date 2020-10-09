@@ -5,11 +5,22 @@ package gomks
 
 import (
 	"bytes"
+	"encoding/json"
 	"html/template"
 	"path/filepath"
 	"regexp"
 	"strings"
 )
+
+var (
+	reDateSlug *regexp.Regexp
+	reHeader   *regexp.Regexp
+)
+
+func init() {
+	reDateSlug = regexp.MustCompile(`^(?:(\d\d\d\d-\d\d-\d\d)-)?(.+)$`)
+	reHeader = regexp.MustCompile(`^<!--\s*([^:]+):\s+(.*)\s*-->\r?\n`)
+}
 
 func Render(tpl *Content, params paramMap) string {
 	t, err := template.New(tpl.Filename()).Parse(tpl.String())
@@ -25,22 +36,34 @@ func Render(tpl *Content, params paramMap) string {
 	return buf.String()
 }
 
-func readHeaders(text string) paramMap {
-	return paramMap{}
+type header struct {
+	key string
+	val interface{}
+	end int
 }
 
-var reDateSlug *regexp.Regexp
-
-func init() {
-	reDateSlug = regexp.MustCompile(`^(?:(\d\d\d\d-\d\d-\d\d)-)?(.+)$`)
+func readHeaders(text string) *header {
+	match := reHeader.FindStringSubmatch(text)
+	if len(match) == 0 {
+		return &header{"", nil, -1}
+	}
+	h := &header{}
+	h.key = match[1]
+	if err := json.Unmarshal([]byte(match[2]), &h.val); err != nil {
+		Panic(err)
+	}
+	h.end = len(match[0])
+	return h
 }
 
 func readContent(fn string) paramMap {
 	c := ParamsNew()
-	_, err := fs.ReadFile(fn)
+	// read file
+	blob, err := fs.ReadFile(fn)
 	if err != nil {
 		Panic(err)
 	}
+	// get date and slug info
 	dateSlug := strings.Split(filepath.Base(fn), ".")[0]
 	match := reDateSlug.FindStringSubmatch(dateSlug)
 	c["date"] = match[1]
@@ -48,6 +71,12 @@ func readContent(fn string) paramMap {
 		c["date"] = "1970-01-01"
 	}
 	c["slug"] = match[2]
+	// read headers
+	text := string(blob)
+	for h := readHeaders(text); h.end > 0; h = readHeaders(text) {
+		c[h.key] = h.val
+		text = text[h.end:]
+	}
 	return c
 }
 
