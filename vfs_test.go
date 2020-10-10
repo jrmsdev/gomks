@@ -18,6 +18,7 @@ type mockFS struct {
 	WithOpenError   bool
 	WithStatError   bool
 	WithReadError   bool
+	WithGlobError   bool
 }
 
 func setMockFS(args ...string) {
@@ -38,6 +39,8 @@ func setMockFS(args ...string) {
 			m.WithStatError = true
 		case "WithReadError":
 			m.WithReadError = true
+		case "WithGlobError":
+			m.WithGlobError = true
 		}
 	}
 	fs = nil
@@ -91,4 +94,11 @@ func (m *mockFS) ReadFile(p string) ([]byte, error) {
 		return nil, errors.New("mock read error")
 	}
 	return m.fs.ReadFile(p)
+}
+
+func (m *mockFS) Glob(p string) ([]string, error) {
+	if m.WithGlobError {
+		return nil, errors.New("mock glob error")
+	}
+	return m.fs.Glob(p)
 }

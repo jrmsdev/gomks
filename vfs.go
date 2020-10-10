@@ -7,6 +7,7 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 )
 
 var fs fsi
@@ -19,6 +20,7 @@ type fsi interface {
 	Open(string) (*os.File, error)
 	Stat(string) (os.FileInfo, error)
 	ReadFile(string) ([]byte, error)
+	Glob(string) ([]string, error)
 }
 
 type nativeFS struct {
@@ -60,4 +62,8 @@ func (n *nativeFS) Stat(p string) (os.FileInfo, error) {
 
 func (n *nativeFS) ReadFile(p string) ([]byte, error) {
 	return ioutil.ReadFile(p)
+}
+
+func (n *nativeFS) Glob(p string) ([]string, error) {
+	return filepath.Glob(p)
 }
