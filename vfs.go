@@ -21,6 +21,7 @@ type fsi interface {
 	Stat(string) (os.FileInfo, error)
 	ReadFile(string) ([]byte, error)
 	Glob(string) ([]string, error)
+	WriteFile(string, string) error
 }
 
 type nativeFS struct {
@@ -78,4 +79,8 @@ func (n *nativeFS) Glob(p string) ([]string, error) {
 		flist = append(flist, n)
 	}
 	return flist, nil
+}
+
+func (n *nativeFS) WriteFile(p string, b string) error {
+	return ioutil.WriteFile(p, []byte(b), 0666)
 }
