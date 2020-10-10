@@ -16,4 +16,5 @@ go:
 script:
   - make build
   - make test
+  - make demo
   - make cover
