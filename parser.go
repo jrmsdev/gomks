@@ -104,6 +104,6 @@ func MakePages(src, dst string, layout *Content, params paramMap) {
 		if err != nil {
 			Panic(err)
 		}
-		Log("render: %q -> %q", sp, dp)
+		Log("Render %q -> %q", sp, dp)
 	}
 }

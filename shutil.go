@@ -26,7 +26,7 @@ func Rmtree(path string) {
 	path = getpath(path)
 	if st, err := os.Stat(path); err == nil {
 		if st.IsDir() {
-			Log("rmtree: %q", path)
+			Log("Remove %q", path)
 		} else {
 			Panicf("rmtree: %q is not a directory", path)
 		}
@@ -85,7 +85,7 @@ func cp(src, dst string) {
 	if err = fs.Copy(dfh, sfh); err != nil {
 		Panic(err)
 	}
-	Log("cp: %q -> %q", src, dst)
+	Log("Copy %q -> %q", src, dst)
 }
 
 func PathIsFile(path string) bool {
