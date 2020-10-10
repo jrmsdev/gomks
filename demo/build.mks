@@ -31,7 +31,7 @@ args["content"] = list_layout
 list_layout = render(page_layout, args)
 
 // Create site pages.
-make_pages("content/_index.html", "_site/index.html",
+make_pages("makesite/content/_index.html", "_site/index.html",
 	page_layout, params)
-make_pages("content/[!_]*.html", "_site/{{ .slug }}/index.html",
+make_pages("makesite/content/[^_]*.html", "_site/{{ .slug }}/index.html",
 	page_layout, params)

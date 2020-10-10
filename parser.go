@@ -91,4 +91,14 @@ func readContent(fn string) paramMap {
 }
 
 func MakePages(src, dst string, layout *Content, params paramMap) {
+	src = filepath.FromSlash(src)
+	flist, err := fs.Glob(src)
+	if err != nil {
+		Panic(err)
+	}
+	dst = filepath.FromSlash(dst)
+	for _, sp := range flist {
+		dp := Render(&Content{"make_pages/dest_path", []byte(dst)}, params)
+		Log("render: %q -> %q", sp, dp)
+	}
 }
