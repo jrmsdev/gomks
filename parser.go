@@ -105,5 +105,8 @@ func MakePages(src, dst string, layout *Content, params paramMap) {
 			Panic(err)
 		}
 		Log("Render %q -> %q", sp, dp)
+		if err := fs.WriteFile(dp, Render(layout, args)); err != nil {
+			Panic(err)
+		}
 	}
 }
