@@ -65,5 +65,17 @@ func (n *nativeFS) ReadFile(p string) ([]byte, error) {
 }
 
 func (n *nativeFS) Glob(p string) ([]string, error) {
-	return filepath.Glob(p)
+	l, err := filepath.Glob(p)
+	if err != nil {
+		return nil, err
+	}
+	flist := make([]string, 0)
+	for _, fn := range l {
+		n, err := filepath.Abs(fn)
+		if err != nil {
+			return nil, err
+		}
+		flist = append(flist, n)
+	}
+	return flist, nil
 }
