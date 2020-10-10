@@ -43,7 +43,7 @@ type header struct {
 	end int
 }
 
-func readHeaders(blob []byte) *header {
+func readHeaders(fn string, blob []byte) *header {
 	match := reHeader.FindSubmatch(blob)
 	if len(match) == 0 {
 		return &header{"", nil, -1}
@@ -51,7 +51,7 @@ func readHeaders(blob []byte) *header {
 	h := &header{}
 	h.key = string(match[1])
 	if err := json.Unmarshal(match[2], &h.val); err != nil {
-		Panic(err)
+		Panicf("%s: %v", fn, err)
 	}
 	h.end = len(match[0])
 	return h
@@ -74,12 +74,12 @@ func readContent(fn string) paramMap {
 	} else {
 		c["date"] = match[1]
 		if date, err = time.Parse("2006-01-02", match[1]); err != nil {
-			Panic(err)
+			Panicf("%s: %v", fn, err)
 		}
 	}
 	c["slug"] = match[2]
 	// read headers
-	for h := readHeaders(blob); h.end > 0; h = readHeaders(blob) {
+	for h := readHeaders(fn, blob); h.end > 0; h = readHeaders(fn, blob) {
 		c[h.key] = h.val
 		blob = blob[h.end:]
 	}
@@ -98,7 +98,8 @@ func MakePages(src, dst string, layout *Content, params paramMap) {
 	}
 	dst = filepath.FromSlash(dst)
 	for _, sp := range flist {
-		dp := Render(&Content{"make_pages/dest_path", []byte(dst)}, params)
+		args := params.UpdateCopy(readContent(sp))
+		dp := Render(&Content{"make_pages/dest_path", []byte(dst)}, args)
 		dp, err = abspath(dp)
 		if err != nil {
 			Panic(err)
