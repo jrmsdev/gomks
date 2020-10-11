@@ -60,3 +60,7 @@ fmt:
 .PHONY: demo
 demo: build
 	@(cd ./demo && ../_build/cmd/mks.bin build.mks)
+
+.PHONY: demo-serve
+demo-serve: demo
+	@./_build/cmd/mks.bin -serve ./demo/_site $(ARGS)
