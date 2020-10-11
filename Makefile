@@ -64,3 +64,10 @@ demo: build
 .PHONY: demo-serve
 demo-serve: demo
 	@./_build/cmd/mks.bin -serve ./demo/_site $(ARGS)
+
+.PHONY: check
+check:
+	$(MAKE) build
+	$(MAKE) test
+	$(MAKE) demo
+	$(MAKE) cover

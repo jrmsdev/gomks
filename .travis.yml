@@ -14,7 +14,4 @@ go:
   - 1.15.x
 
 script:
-  - make build
-  - make test
-  - make demo
-  - make cover
+  - make check
