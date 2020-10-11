@@ -5,9 +5,13 @@ package gomks
 
 import (
 	"bytes"
+	"io"
 
 	"github.com/yuin/goldmark"
+	"github.com/yuin/goldmark/parser"
 )
+
+var mdConvert func([]byte, io.Writer, ...parser.ParseOption) error = goldmark.Convert
 
 func isMarkdown(ext string) bool {
 	switch ext {
@@ -27,7 +31,7 @@ func isMarkdown(ext string) bool {
 
 func parseMarkdown(src []byte) string {
 	buf := new(bytes.Buffer)
-	if err := goldmark.Convert(src, buf); err != nil {
+	if err := mdConvert(src, buf); err != nil {
 		Panic(err)
 	}
 	defer buf.Reset()
