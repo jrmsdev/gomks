@@ -20,10 +20,12 @@ _build/cmd/mks.bin: _build/version
 	@go build -v -mod vendor -i -o ./_build/cmd/mks.bin \
 		-ldflags "-X $(MOD).build=`cat ./_build/version`" ./cmd/mks
 
+GIT_DESCRIBE ?= --always --dirty --first-parent --tags
+
 .PHONY: _build/version
 _build/version:
 	@mkdir -p ./_build
-	@echo "`date -u '+%Y%m%d.%H%M%S'`-`git describe --always --dirty`" >./_build/version
+	@echo "`date -u '+%Y%m%d.%H%M%S'`-`git describe $(GIT_DESCRIBE)`" >./_build/version
 
 .PHONY: clean
 clean:
