@@ -46,8 +46,9 @@ func (p *Pages) Add(c paramMap) {
 }
 
 func (p *Pages) Sort() {
-	p.SortBy("date")
+	p.sortBy("date")
 }
 
-func (p *Pages) SortBy(key string) {
+func (p *Pages) sortBy(key string) {
+	sort.Sort(sort.Reverse(newSortBy(p, key)))
 }
