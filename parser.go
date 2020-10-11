@@ -90,18 +90,6 @@ func readContent(fn string) paramMap {
 	return c
 }
 
-type Pages struct {
-	l []paramMap
-}
-
-func newPages() *Pages {
-	return &Pages{l: make([]paramMap, 0)}
-}
-
-func (p *Pages) Add(c paramMap) {
-	p.l = append(p.l, c)
-}
-
 func MakePages(src, dst string, layout *Content, params paramMap) *Pages {
 	src = filepath.FromSlash(src)
 	flist, err := fs.Glob(src)
