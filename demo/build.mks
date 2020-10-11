@@ -7,6 +7,7 @@ params = params_new()
 params["base_path"] = ""
 params["site_url"] = ""
 params["title"] = ""
+params["current_year"] = "2020"
 params["subtitle"] = "Lorem Ipsum"
 params["author"] = "Author"
 
@@ -39,24 +40,25 @@ make_pages("makesite/content/[^_]*.html", "_site/{{ .slug }}/index.html",
 args = params.Copy()
 
 // Create blogs.
-//~ args["blog"] = "blog"
-//~ blog_posts = make_pages("makesite/content/blog/*.md",
-	//~ "_site/blog/{{ .slug }}/index.html", post_layout, args)
+args["blog"] = "blog"
+blog_posts = make_pages("makesite/content/blog/*.md",
+	"_site/blog/{{ .slug }}/index.html", post_layout, args)
 args["blog"] = "news"
 news_posts = make_pages("makesite/content/news/*.html",
 	"_site/news/{{ .slug }}/index.html", post_layout, args)
 
 // Create blog list pages.
-//~ make_list(blog_posts, '_site/blog/index.html',
-	//~ list_layout, item_layout, blog='blog', title='Blog', **params)
+args["blog"] = "blog"
+args["title"] = "Blog"
+make_list(blog_posts, "_site/blog/index.html", list_layout, item_layout, args)
 args["blog"] = "news"
 args["title"] = "News"
 make_list(news_posts, "_site/news/index.html", list_layout, item_layout, args)
 
 // Create RSS feeds.
-//~ args["blog"] = "blog"
-//~ args["title"] = "Blog"
-//~ make_list(blog_posts, "_site/blog/rss.xml", feed_xml, item_xml, args)
+args["blog"] = "blog"
+args["title"] = "Blog"
+make_list(blog_posts, "_site/blog/rss.xml", feed_xml, item_xml, args)
 args["blog"] = "news"
 args["title"] = "News"
 make_list(news_posts, "_site/news/rss.xml", feed_xml, item_xml, args)

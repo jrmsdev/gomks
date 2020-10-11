@@ -13,6 +13,14 @@ func isMarkdown(ext string) bool {
 	switch ext {
 	case ".md":
 		return true
+	case ".mkd":
+		return true
+	case ".mkdn":
+		return true
+	case ".mdown":
+		return true
+	case ".markdown":
+		return true
 	}
 	return false
 }
