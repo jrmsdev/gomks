@@ -10,7 +10,7 @@ build: _build/version _build/cmd/mks.bin
 
 .PHONY: check
 check: build test demo cover
-	./_build/cmd/mks.bin -version
+	@./_build/cmd/mks.bin -version
 
 .PHONY: _build/version
 _build/version:
