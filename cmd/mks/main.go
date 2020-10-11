@@ -13,19 +13,24 @@ import (
 
 var exit func(int) = os.Exit
 
+var (
+	showVersion bool
+)
+
 func main() {
+	flag.BoolVar(&showVersion, "version", false, "show version and exit")
 	flag.Parse()
 	exit(run(flag.Args()))
 }
 
 func run(args []string) int {
+	if showVersion {
+		mks.Log("mks version %s", mks.Version())
+		return 0
+	}
 	if len(args) == 0 {
 		mks.Log("ERROR: %s", "no args")
 		return 1
-	}
-	if args[0] == "version" {
-		mks.Log("mks version %s", mks.Version())
-		return 0
 	}
 	vm := mks.NewVM()
 	for _, fn := range args {
