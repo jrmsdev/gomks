@@ -48,7 +48,7 @@ func (p paramMap) Copy() paramMap {
 	return cp
 }
 
-func (p paramMap) UpdateCopy(params paramMap) paramMap {
+func (p paramMap) updateCopy(params paramMap) paramMap {
 	cp := p.Copy()
 	for k, v := range params {
 		cp[k] = v

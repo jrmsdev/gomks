@@ -98,7 +98,7 @@ func MakePages(src, dst string, layout *Content, params paramMap) {
 	}
 	dst = filepath.FromSlash(dst)
 	for _, sp := range flist {
-		args := params.UpdateCopy(readContent(sp))
+		args := params.updateCopy(readContent(sp))
 		dp := Render(&Content{"make_pages/dest_path", []byte(dst)}, args)
 		dp, err = abspath(dp)
 		if err != nil {
