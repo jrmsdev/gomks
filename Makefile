@@ -6,15 +6,22 @@ MOD := github.com/jrmsdev/gomks
 default: build
 
 .PHONY: build
-build: _build/version
-	@mkdir -p ./_build/cmd
-	@go build -v -mod vendor -i -o ./_build/cmd/mks.bin \
-		-ldflags "-X $(MOD).build=`cat ./_build/version`" ./cmd/mks
+build: _build/version _build/cmd/mks.bin
+
+.PHONY: check
+check: build test demo cover
+	./_build/cmd/mks.bin -version
 
 .PHONY: _build/version
 _build/version:
 	@mkdir -p ./_build
 	@echo "`date -u '+%Y%m%d.%H%M%S'`-`git describe --always --dirty`" >./_build/version
+
+.PHONY: _build/cmd/mks.bin
+_build/cmd/mks.bin:
+	@mkdir -p ./_build/cmd
+	@go build -v -mod vendor -i -o ./_build/cmd/mks.bin \
+		-ldflags "-X $(MOD).build=`cat ./_build/version`" ./cmd/mks
 
 .PHONY: clean
 clean:
@@ -64,10 +71,3 @@ demo: build
 .PHONY: demo-serve
 demo-serve: demo
 	@./_build/cmd/mks.bin -serve ./demo/_site $(ARGS)
-
-.PHONY: check
-check:
-	$(MAKE) build
-	$(MAKE) test
-	$(MAKE) demo
-	$(MAKE) cover
