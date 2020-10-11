@@ -50,3 +50,11 @@ news_posts = make_pages("makesite/content/news/*.html",
 args["blog"] = "news"
 args["title"] = "News"
 make_list(news_posts, "_site/news/index.html", list_layout, item_layout, args)
+
+// Create RSS feeds.
+//~ args["blog"] = "blog"
+//~ args["title"] = "Blog"
+//~ make_list(blog_posts, "_site/blog/rss.xml", feed_xml, item_xml, args)
+args["blog"] = "news"
+args["title"] = "News"
+make_list(news_posts, "_site/news/rss.xml", feed_xml, item_xml, args)

@@ -1,12 +1,13 @@
+<!-- Modified for gomks to be used with Go templates parser. -->
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
 
 <channel>
-<title>{{ title }}</title>
-<link>{{ site_url }}/</link>
+<title>{{ .title }}</title>
+<link>{{ .site_url }}/</link>
 <description>Grow with Technology</description>
 
-{{ content }}
+{{ .content }}
 
 </channel>
 </rss>
