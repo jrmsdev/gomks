@@ -117,5 +117,9 @@ func MakePages(src, dst string, layout *Content, params paramMap) *Pages {
 			Panic(err)
 		}
 	}
+	pages.Sort()
 	return pages
+}
+
+func MakeList(pages *Pages) {
 }
