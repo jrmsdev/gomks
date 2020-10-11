@@ -42,7 +42,11 @@ func (s *MainTestSuite) TestNoArgs() {
 
 func (s *MainTestSuite) TestVersion() {
 	check := s.Require()
-	rc := run([]string{"version"})
+	showVersion = true
+	defer func() {
+		showVersion = false
+	}()
+	rc := run([]string{})
 	check.Equal(0, rc)
 }
 
