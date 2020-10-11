@@ -9,9 +9,11 @@ import (
 	mks "github.com/jrmsdev/gomks"
 )
 
+var lns func(string, http.Handler) error = http.ListenAndServe
+
 func runServer(addr, site string) int {
 	mks.Log("Listen http://%s", addr)
-	err := http.ListenAndServe(addr, http.FileServer(http.Dir(site)))
+	err := lns(addr, http.FileServer(http.Dir(site)))
 	if err != nil {
 		mks.Log("ERROR: %v", err)
 		return 9
