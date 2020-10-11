@@ -6,10 +6,10 @@ package gomks
 import (
 	"bytes"
 	"encoding/json"
-	"text/template"
 	"path/filepath"
 	"regexp"
 	"strings"
+	"text/template"
 	"time"
 )
 
@@ -86,8 +86,12 @@ func readContent(fn string) paramMap {
 	// TODO: convert markdown
 	// update content
 	c["rfc_date"] = date.Format(time.RFC1123Z)
-	//~ c["content"] = template.HTML(string(blob))
-	c["content"] = string(blob)
+	ext := filepath.Ext(filepath.Base(fn))
+	if isMarkdown(ext) {
+		c["content"] = parseMarkdown(blob)
+	} else {
+		c["content"] = string(blob)
+	}
 	return c
 }
 
