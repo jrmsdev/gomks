@@ -6,6 +6,7 @@ copytree("makesite/static", "_site")
 params = params_new()
 params["base_path"] = ""
 params["site_url"] = ""
+params["title"] = ""
 params["subtitle"] = "Lorem Ipsum"
 params["author"] = "Author"
 
