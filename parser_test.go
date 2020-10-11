@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"path/filepath"
 	"strings"
+	"sort"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -39,6 +40,21 @@ func TestParserReadHeaders(t *testing.T) {
 	c := readContent(fn)
 	check.Equal("Index", c["title"])
 	check.IsType(template.HTML(""), c["content"])
+}
+
+func TestParserReadContent(t *testing.T) {
+	check := require.New(t)
+	fn := filepath.FromSlash("testdata/parser/index.html")
+	c := readContent(fn)
+	check.Equal("Index", c["title"])
+	keys := make([]string, 0)
+	for k := range c {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+	ck := []string{"slug", "title", "rfc_date", "content", "date"}
+	sort.Strings(ck)
+	check.Equal(ck, keys)
 }
 
 func TestParserTemplatesLayout(t *testing.T) {
