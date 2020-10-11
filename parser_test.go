@@ -14,10 +14,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestRenderErrors(t *testing.T) {
-	t.Log("TODO!!")
-}
-
 func TestParserDateSlug(t *testing.T) {
 	check := require.New(t)
 	fn := filepath.FromSlash("testdata/parser/index.html")

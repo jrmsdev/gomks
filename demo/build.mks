@@ -1,5 +1,3 @@
-log("mks version v%s", version())
-
 // Create a new _site directory from scratch.
 rmtree("_site")
 copytree("makesite/static", "_site")
@@ -25,9 +23,9 @@ item_xml = fread("makesite/layout/item.xml")
 
 // Combine layouts to form final layouts.
 args = params_new()
-args["content"] = post_layout
+args["content"] = post_layout.HTML()
 post_layout = render(page_layout, args)
-args["content"] = list_layout
+args["content"] = list_layout.HTML()
 list_layout = render(page_layout, args)
 
 // Create site pages.
@@ -44,3 +42,9 @@ args = params.Copy()
 args["blog"] = "news"
 news_posts = make_pages("makesite/content/news/*.html",
 	"_site/news/{{ .slug }}/index.html", post_layout, args)
+
+// Create blog list pages.
+//~ make_list(blog_posts, '_site/blog/index.html',
+	//~ list_layout, item_layout, blog='blog', title='Blog', **params)
+//~ make_list(news_posts, '_site/news/index.html',
+	//~ list_layout, item_layout, blog='news', title='News', **params)
