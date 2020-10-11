@@ -41,6 +41,6 @@ args = params.Copy()
 //~ args["blog"] = "blog"
 //~ blog_posts = make_pages("makesite/content/blog/*.md",
 	//~ "_site/blog/{{ .slug }}/index.html", post_layout, args)
-//~ args["blog"] = "news"
-//~ news_posts = make_pages("makesite/content/news/*.html",
-	//~ "_site/news/{{ .slug }}/index.html", post_layout, args)
+args["blog"] = "news"
+news_posts = make_pages("makesite/content/news/*.html",
+	"_site/news/{{ .slug }}/index.html", post_layout, args)

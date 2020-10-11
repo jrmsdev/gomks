@@ -23,7 +23,7 @@ func init() {
 	reHeader = regexp.MustCompile(`^<!--\s*([^\s]+):\s+(.*)\s*-->\r?\n`)
 }
 
-func Render(tpl *Content, params paramMap) string {
+func Render(tpl *Content, params paramMap) *Content {
 	t, err := template.New(tpl.Filename()).Parse(tpl.String())
 	if err != nil {
 		Panic(err)
@@ -34,7 +34,7 @@ func Render(tpl *Content, params paramMap) string {
 		Panic(err)
 	}
 	defer buf.Reset()
-	return buf.String()
+	return newContent(tpl.Filename(), buf.Bytes())
 }
 
 type header struct {
@@ -99,8 +99,8 @@ func MakePages(src, dst string, layout *Content, params paramMap) {
 	dst = filepath.FromSlash(dst)
 	for _, sp := range flist {
 		args := params.updateCopy(readContent(sp))
-		dp := Render(&Content{"make_pages/dest_path", []byte(dst)}, args)
-		dp, err = abspath(dp)
+		r := Render(&Content{"make_pages/dest_path", []byte(dst)}, args)
+		dp, err := abspath(r.String())
 		if err != nil {
 			Panic(err)
 		}
@@ -109,7 +109,8 @@ func MakePages(src, dst string, layout *Content, params paramMap) {
 		if err := fs.MkdirAll(ddir); err != nil {
 			Panic(err)
 		}
-		if err := fs.WriteFile(dp, Render(layout, args)); err != nil {
+		r = Render(layout, args)
+		if err := fs.WriteFile(dp, r.String()); err != nil {
 			Panic(err)
 		}
 	}
