@@ -90,15 +90,30 @@ func readContent(fn string) paramMap {
 	return c
 }
 
-func MakePages(src, dst string, layout *Content, params paramMap) {
+type Pages struct {
+	l []paramMap
+}
+
+func newPages() *Pages {
+	return &Pages{l: make([]paramMap, 0)}
+}
+
+func (p *Pages) Add(c paramMap) {
+	p.l = append(p.l, c)
+}
+
+func MakePages(src, dst string, layout *Content, params paramMap) *Pages {
 	src = filepath.FromSlash(src)
 	flist, err := fs.Glob(src)
 	if err != nil {
 		Panic(err)
 	}
+	pages := newPages()
 	dst = filepath.FromSlash(dst)
 	for _, sp := range flist {
-		args := params.updateCopy(readContent(sp))
+		c := readContent(sp)
+		pages.Add(c)
+		args := params.updateCopy(c)
 		r := Render(&Content{"make_pages/dest_path", []byte(dst)}, args)
 		dp, err := abspath(r.String())
 		if err != nil {
@@ -114,4 +129,5 @@ func MakePages(src, dst string, layout *Content, params paramMap) {
 			Panic(err)
 		}
 	}
+	return pages
 }

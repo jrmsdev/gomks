@@ -6,7 +6,7 @@ copytree("makesite/static", "_site")
 params = params_new()
 params["base_path"] = ""
 params["subtitle"] = "Lorem Ipsum"
-params["author"] = "Admin"
+params["author"] = "Author"
 
 // If params.json exists, load it.
 if path_isfile("makesite/params.json") {
@@ -34,8 +34,9 @@ make_pages("makesite/content/_index.html", "_site/index.html",
 make_pages("makesite/content/[^_]*.html", "_site/{{ .slug }}/index.html",
 	page_layout, params)
 
-// Create blogs.
 args = params.Copy()
+
+// Create blogs.
 //~ args["blog"] = "blog"
 //~ blog_posts = make_pages("makesite/content/blog/*.md",
 	//~ "_site/blog/{{ .slug }}/index.html", post_layout, args)
@@ -46,5 +47,6 @@ news_posts = make_pages("makesite/content/news/*.html",
 // Create blog list pages.
 //~ make_list(blog_posts, '_site/blog/index.html',
 	//~ list_layout, item_layout, blog='blog', title='Blog', **params)
-//~ make_list(news_posts, '_site/news/index.html',
-	//~ list_layout, item_layout, blog='news', title='News', **params)
+args["blog"] = "news"
+args["title"] = "News"
+//~ make_list(news_posts, "_site/news/index.html", list_layout, item_layout, args)
