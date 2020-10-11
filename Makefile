@@ -2,6 +2,10 @@ PKG ?= ./...
 ARGS ?=
 SITE ?= _site
 
+PROGNAME ?= mks
+DESTDIR ?=
+PREFIX ?= $(GOPATH)
+
 MOD := github.com/jrmsdev/gomks
 
 .PHONY: default
@@ -79,3 +83,11 @@ demo-serve: demo
 .PHONY: serve
 serve: build
 	@./_build/cmd/mks.bin -serve $(SITE) $(ARGS)
+
+.PHONY: install
+install: build
+	@install -v -m 755 -D _build/cmd/mks.bin $(DESTDIR)$(PREFIX)/bin/$(PROGNAME)
+
+.PHONY: uninstall
+uninstall:
+	@rm -vf $(DESTDIR)$(PREFIX)/bin/$(PROGNAME)
