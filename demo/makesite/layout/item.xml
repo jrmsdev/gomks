@@ -1,4 +1,3 @@
-<!-- Modified for gomks to be used with Go templates parser. -->
 <item>
 <title>{{ .title }}</title>
 <link>{{ .site_url }}/{{ .blog }}/{{ .slug }}/</link>

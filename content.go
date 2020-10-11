@@ -3,10 +3,6 @@
 
 package gomks
 
-import (
-	"html/template"
-)
-
 type Content struct {
 	filename string
 	data     []byte
@@ -22,8 +18,4 @@ func (c *Content) Filename() string {
 
 func (c *Content) String() string {
 	return string(c.data)
-}
-
-func (c *Content) HTML() template.HTML {
-	return template.HTML(c.String())
 }

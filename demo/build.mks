@@ -5,6 +5,7 @@ copytree("makesite/static", "_site")
 // Default parameters.
 params = params_new()
 params["base_path"] = ""
+params["site_url"] = ""
 params["subtitle"] = "Lorem Ipsum"
 params["author"] = "Author"
 
@@ -23,9 +24,9 @@ item_xml = fread("makesite/layout/item.xml")
 
 // Combine layouts to form final layouts.
 args = params.Copy()
-args["content"] = post_layout.HTML()
+args["content"] = post_layout
 post_layout = render(page_layout, args)
-args["content"] = list_layout.HTML()
+args["content"] = list_layout
 list_layout = render(page_layout, args)
 
 // Create site pages.

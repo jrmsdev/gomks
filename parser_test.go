@@ -4,7 +4,6 @@
 package gomks
 
 import (
-	"html/template"
 	"io/ioutil"
 	"path/filepath"
 	"sort"
@@ -35,7 +34,7 @@ func TestParserReadHeaders(t *testing.T) {
 	fn := filepath.FromSlash("testdata/parser/index.html")
 	c := readContent(fn)
 	check.Equal("Index", c["title"])
-	check.IsType(template.HTML(""), c["content"])
+	check.IsType("", c["content"])
 }
 
 func TestParserReadContent(t *testing.T) {
@@ -63,5 +62,5 @@ func TestParserTemplatesLayout(t *testing.T) {
 	check.NoError(err)
 	s := strings.Replace(string(blob), "\n", "", -1)
 	s = strings.Replace(s, "\r", "", -1)
-	check.Equal(`<html><p>testing</p></html>`, s)
+	check.Equal(`<!-- testing --><html><p>testing</p></html>`, s)
 }

@@ -6,7 +6,7 @@ package gomks
 import (
 	"bytes"
 	"encoding/json"
-	"html/template"
+	"text/template"
 	"path/filepath"
 	"regexp"
 	"strings"
@@ -86,7 +86,8 @@ func readContent(fn string) paramMap {
 	// TODO: convert markdown
 	// update content
 	c["rfc_date"] = date.Format(time.RFC1123Z)
-	c["content"] = template.HTML(string(blob))
+	//~ c["content"] = template.HTML(string(blob))
+	c["content"] = string(blob)
 	return c
 }
 
@@ -135,7 +136,7 @@ func MakeList(pages *Pages, dst string, listLayout *Content, itemLayout *Content
 	if err != nil {
 		Panic(err)
 	}
-	params["content"] = template.HTML(strings.Join(items, "\n"))
+	params["content"] = strings.Join(items, "\n")
 	Log("Render list %q", dp)
 	ddir := filepath.Dir(dp)
 	if err := fs.MkdirAll(ddir); err != nil {
