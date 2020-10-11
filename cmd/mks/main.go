@@ -16,11 +16,14 @@ var exit func(int) = os.Exit
 var (
 	showVersion bool
 	serveSite   string
+	httpListen  string
 )
 
 func main() {
 	flag.BoolVar(&showVersion, "version", false, "show version and exit")
 	flag.StringVar(&serveSite, "serve", "", "run http server on `site_dirpath`")
+	flag.StringVar(&httpListen, "http", "127.0.0.1:8080",
+		"bind http server to `address:port`")
 	flag.Parse()
 	exit(run(flag.Args()))
 }
@@ -31,7 +34,7 @@ func run(args []string) int {
 		return 0
 	}
 	if serveSite != "" {
-		return runServer(serveSite)
+		return runServer(httpListen, serveSite)
 	}
 	if len(args) == 0 {
 		mks.Log("ERROR: %s", "no args")
