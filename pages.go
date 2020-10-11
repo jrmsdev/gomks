@@ -28,9 +28,7 @@ func (s *pSort) Less(i, j int) bool {
 }
 
 func (s *pSort) Swap(i, j int) {
-	jv := s.p.l[j]
-	s.p.l[j] = s.p.l[i]
-	s.p.l[i] = jv
+	s.p.l[i], s.p.l[j] = s.p.l[j], s.p.l[i]
 }
 
 type Pages struct {
