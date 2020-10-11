@@ -14,7 +14,7 @@ func TestRenderErrors(t *testing.T) {
 	t.Log("TODO!!")
 }
 
-func TestReadContentDateSlug(t *testing.T) {
+func TestParserDateSlug(t *testing.T) {
 	check := require.New(t)
 	fn := filepath.FromSlash("testdata/parser/index.html")
 	c := readContent(fn)
@@ -28,4 +28,12 @@ func TestReadContentDateSlug(t *testing.T) {
 	check.Equal("Thu, 08 Oct 2020 00:00:00 +0000", c["rfc_date"])
 	check.Equal("date-slug", c["slug"])
 	check.Equal("Date Slug", c["title"])
+}
+
+func TestParserReadHeaders(t *testing.T) {
+	check := require.New(t)
+	fn := filepath.FromSlash("testdata/parser/index.html")
+	c := readContent(fn)
+	check.Equal("Index", c["title"])
+	check.Equal("<!DOCTYPE html>\n", c["content"])
 }
