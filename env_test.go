@@ -75,6 +75,9 @@ var symTests = map[string]map[string]symt{
 		"test": {`make_pages("", "",
 			fread("testdata/render/test.html"), params_new())`, ""},
 	},
+	"make_list": {
+		"test": {`log("FIXME!!")`, ""},
+	},
 }
 
 func getSym(e *env.Env, n string) error {

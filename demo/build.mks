@@ -22,7 +22,7 @@ feed_xml = fread("makesite/layout/feed.xml")
 item_xml = fread("makesite/layout/item.xml")
 
 // Combine layouts to form final layouts.
-args = params_new()
+args = params.Copy()
 args["content"] = post_layout.HTML()
 post_layout = render(page_layout, args)
 args["content"] = list_layout.HTML()
@@ -49,4 +49,4 @@ news_posts = make_pages("makesite/content/news/*.html",
 	//~ list_layout, item_layout, blog='blog', title='Blog', **params)
 args["blog"] = "news"
 args["title"] = "News"
-//~ make_list(news_posts, "_site/news/index.html", list_layout, item_layout, args)
+make_list(news_posts, "_site/news/index.html", list_layout, item_layout, args)

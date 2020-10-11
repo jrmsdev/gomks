@@ -41,6 +41,14 @@ func newPages() *Pages {
 	return &Pages{l: make([]paramMap, 0)}
 }
 
+func (p *Pages) len() int {
+	return len(p.l)
+}
+
+func (p *Pages) get(i int) paramMap {
+	return p.l[i]
+}
+
 func (p *Pages) Add(c paramMap) {
 	p.l = append(p.l, c)
 }

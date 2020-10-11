@@ -7,8 +7,8 @@ import (
 	"html/template"
 	"io/ioutil"
 	"path/filepath"
-	"strings"
 	"sort"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/require"

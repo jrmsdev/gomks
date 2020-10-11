@@ -27,6 +27,7 @@ func newEnv() *env.Env {
 	define(e, "fread", Fread)
 	define(e, "render", Render)
 	define(e, "make_pages", MakePages)
+	define(e, "make_list", MakeList)
 	return e
 }
 

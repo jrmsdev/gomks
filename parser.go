@@ -121,5 +121,28 @@ func MakePages(src, dst string, layout *Content, params paramMap) *Pages {
 	return pages
 }
 
-func MakeList(pages *Pages) {
+func MakeList(pages *Pages, dst string, listLayout *Content, itemLayout *Content, params paramMap) {
+	items := make([]string, 0)
+	last := pages.len()
+	for i := 0; i < last; i++ {
+		p := params.updateCopy(pages.get(i))
+		p["summary"] = "FIXME!!"
+		r := Render(itemLayout, p)
+		items = append(items, r.String())
+	}
+	r := Render(&Content{"make_list/dest_path", []byte(dst)}, params)
+	dp, err := abspath(r.String())
+	if err != nil {
+		Panic(err)
+	}
+	params["content"] = template.HTML(strings.Join(items, "\n"))
+	Log("Render list %q", dp)
+	ddir := filepath.Dir(dp)
+	if err := fs.MkdirAll(ddir); err != nil {
+		Panic(err)
+	}
+	r = Render(listLayout, params)
+	if err := fs.WriteFile(dp, r.String()); err != nil {
+		Panic(err)
+	}
 }
