@@ -86,7 +86,7 @@ func readContent(fn string) paramMap {
 	// TODO: convert markdown
 	// update content
 	c["rfc_date"] = date.Format(time.RFC1123Z)
-	c["content"] = string(blob)
+	c["content"] = template.HTML(string(blob))
 	return c
 }
 

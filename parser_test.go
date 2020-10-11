@@ -4,7 +4,10 @@
 package gomks
 
 import (
+	"html/template"
+	"io/ioutil"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -35,5 +38,18 @@ func TestParserReadHeaders(t *testing.T) {
 	fn := filepath.FromSlash("testdata/parser/index.html")
 	c := readContent(fn)
 	check.Equal("Index", c["title"])
-	check.Equal("<!DOCTYPE html>\n", c["content"])
+	check.IsType(template.HTML(""), c["content"])
+}
+
+func TestParserTemplatesLayout(t *testing.T) {
+	check := require.New(t)
+	params := ParamsNew()
+	pageLayout := Fread("testdata/parser/layout/page.html")
+	MakePages("testdata/parser/layout/_index.html",
+		"testdata/_tmp/layout/index.html", pageLayout, params)
+	blob, err := ioutil.ReadFile(filepath.FromSlash("testdata/_tmp/layout/index.html"))
+	check.NoError(err)
+	s := strings.Replace(string(blob), "\n", "", -1)
+	s = strings.Replace(s, "\r", "", -1)
+	check.Equal(`<html><p>testing</p></html>`, s)
 }
