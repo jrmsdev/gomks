@@ -40,11 +40,16 @@ func (p paramMap) Load(filename string) {
 	}
 }
 
-func (p paramMap) UpdateCopy(params paramMap) paramMap {
+func (p paramMap) Copy() paramMap {
 	cp := ParamsNew()
 	for k, v := range p {
 		cp[k] = v
 	}
+	return cp
+}
+
+func (p paramMap) UpdateCopy(params paramMap) paramMap {
+	cp := p.Copy()
 	for k, v := range params {
 		cp[k] = v
 	}

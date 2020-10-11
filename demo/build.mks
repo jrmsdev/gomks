@@ -35,3 +35,12 @@ make_pages("makesite/content/_index.html", "_site/index.html",
 	page_layout, params)
 make_pages("makesite/content/[^_]*.html", "_site/{{ .slug }}/index.html",
 	page_layout, params)
+
+// Create blogs.
+args = params.Copy()
+//~ args["blog"] = "blog"
+//~ blog_posts = make_pages("makesite/content/blog/*.md",
+	//~ "_site/blog/{{ .slug }}/index.html", post_layout, args)
+//~ args["blog"] = "news"
+//~ news_posts = make_pages("makesite/content/news/*.html",
+	//~ "_site/news/{{ .slug }}/index.html", post_layout, args)
