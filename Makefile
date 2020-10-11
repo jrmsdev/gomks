@@ -1,5 +1,7 @@
 PKG ?= ./...
 ARGS ?=
+SITE ?= _site
+
 MOD := github.com/jrmsdev/gomks
 
 .PHONY: default
@@ -70,4 +72,8 @@ demo: build
 
 .PHONY: demo-serve
 demo-serve: demo
-	@./_build/cmd/mks.bin -serve ./demo/_site $(ARGS)
+	@$(MAKE) serve SITE=demo/_site
+
+.PHONY: serve
+serve: build
+	@./_build/cmd/mks.bin -serve $(SITE) $(ARGS)
