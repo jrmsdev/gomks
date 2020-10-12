@@ -35,7 +35,7 @@ _build/version:
 clean:
 	@go clean -mod vendor -i -cache $(PKG)
 	@rm -vf ./mks
-	@rm -vrf ./_build ./_testing
+	@rm -vrf ./_build ./_testing ./demo/_site
 
 .PHONY: distclean
 distclean:
