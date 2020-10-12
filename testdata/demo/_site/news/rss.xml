@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+
+<channel>
+<title>News</title>
+<link>http://localhost:8000/</link>
+<description>Grow with Technology</description>
+
+<item>
+<title>Mauris Tempor</title>
+<link>http://localhost:8000/news/mauris-tempor/</link>
+<description>
+<![CDATA[
+<p>
+Mauris tempor nulla odio, vel tempus metus bibendum sit amet. Vivamus consequat fringilla tristique. Nullam a congue ligula, eget rutrum lectus. In pulvinar at nunc&nbsp;<a href="http://localhost:8000/news/mauris-tempor/">...</a>
+</p>
+<p><a href="http://localhost:8000/news/mauris-tempor/">Read More</a></p>
+]]>
+</description>
+<pubDate>Thu, 04 Jan 2018 00:00:00 +0000</pubDate>
+</item>
+<item>
+<title>Vivamus Purus</title>
+<link>http://localhost:8000/news/vivamus-purus/</link>
+<description>
+<![CDATA[
+<p>
+Vivamus purus tellus, facilisis in sapien quis, ullamcorper lacinia neque. Morbi tincidunt ac leo sit amet auctor. Donec dolor mauris, lobortis eget faucibus sit amet,&nbsp;<a href="http://localhost:8000/news/vivamus-purus/">...</a>
+</p>
+<p><a href="http://localhost:8000/news/vivamus-purus/">Read More</a></p>
+]]>
+</description>
+<pubDate>Tue, 02 Jan 2018 00:00:00 +0000</pubDate>
+</item>
+
+
+</channel>
+</rss>

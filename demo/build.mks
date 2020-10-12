@@ -9,7 +9,7 @@ params["site_url"] = ""
 params["title"] = ""
 params["current_year"] = "2020"
 params["subtitle"] = "Lorem Ipsum"
-params["author"] = "Author"
+params["author"] = "Admin"
 
 // If params.json exists, load it.
 if path_isfile("makesite/params.json") {
