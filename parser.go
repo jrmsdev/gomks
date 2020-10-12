@@ -4,57 +4,53 @@
 package gomks
 
 import (
-	"bytes"
-	"encoding/json"
+	//~ "bytes"
+	//~ "encoding/json"
 	"path/filepath"
 	"regexp"
 	"strings"
-	"text/template"
+	//~ "text/template"
 	"time"
 )
 
 var (
 	reDateSlug *regexp.Regexp
 	reHeader   *regexp.Regexp
+	reTmpl     *regexp.Regexp
 )
 
 func init() {
 	reDateSlug = regexp.MustCompile(`^(?:(\d\d\d\d-\d\d-\d\d)-)?(.+)$`)
-	reHeader = regexp.MustCompile(`^<!--\s*([^\s]+):\s+(.*)\s*-->\r?\n`)
+	reHeader = regexp.MustCompile(`^<!--\s*([^\s]+):\s+(.*)\s+-->\r?\n`)
+	reTmpl = regexp.MustCompile(`{{\s*([^}\s]+)\s*}}`)
 }
 
-func Render(tpl *Content, params paramMap) *Content {
-	t, err := template.New(tpl.Filename()).Parse(tpl.String())
-	if err != nil {
-		Panic(err)
-	}
-	buf := new(bytes.Buffer)
-	err = t.Execute(buf, params)
-	if err != nil {
-		Panic(err)
-	}
-	defer buf.Reset()
-	return newContent(tpl.Filename(), buf.Bytes())
+func Render(tpl string, params paramMap) string {
+	return reTmpl.ReplaceAllStringFunc(tpl, func(s string) string {
+		m := reTmpl.FindStringSubmatch(s)
+		if v, found := params[m[1]]; found {
+			return v.(string)
+		}
+		return s
+	})
 }
 
 type header struct {
 	key string
-	val interface{}
+	val string
 	end int
 }
 
 func readHeaders(fn string, blob []byte) *header {
 	match := reHeader.FindSubmatch(blob)
 	if len(match) == 0 {
-		return &header{"", nil, -1}
+		return &header{"", "", -1}
 	}
-	h := &header{}
-	h.key = string(match[1])
-	if err := json.Unmarshal(match[2], &h.val); err != nil {
-		Panicf("%s: %v", fn, err)
+	return &header{
+		key: string(match[1]),
+		val: string(match[2]),
+		end: len(match[0]),
 	}
-	h.end = len(match[0])
-	return h
 }
 
 func readContent(fn string) paramMap {
@@ -95,7 +91,7 @@ func readContent(fn string) paramMap {
 	return c
 }
 
-func MakePages(src, dst string, layout *Content, params paramMap) *Pages {
+func MakePages(src, dst string, layout string, params paramMap) *Pages {
 	src = filepath.FromSlash(src)
 	flist, err := fs.Glob(src)
 	if err != nil {
@@ -107,8 +103,7 @@ func MakePages(src, dst string, layout *Content, params paramMap) *Pages {
 		c := readContent(sp)
 		pages.Add(c)
 		args := params.updateCopy(c)
-		r := Render(&Content{"make_pages/dest_path", []byte(dst)}, args)
-		dp, err := abspath(r.String())
+		dp, err := abspath(Render(dst, args))
 		if err != nil {
 			Panic(err)
 		}
@@ -117,8 +112,7 @@ func MakePages(src, dst string, layout *Content, params paramMap) *Pages {
 		if err := fs.MkdirAll(ddir); err != nil {
 			Panic(err)
 		}
-		r = Render(layout, args)
-		if err := fs.WriteFile(dp, r.String()); err != nil {
+		if err := fs.WriteFile(dp, Render(layout, args)); err != nil {
 			Panic(err)
 		}
 	}
@@ -126,17 +120,15 @@ func MakePages(src, dst string, layout *Content, params paramMap) *Pages {
 	return pages
 }
 
-func MakeList(pages *Pages, dst string, listLayout *Content, itemLayout *Content, params paramMap) {
+func MakeList(pages *Pages, dst string, listLayout string, itemLayout string, params paramMap) {
 	items := make([]string, 0)
 	last := pages.len()
 	for i := 0; i < last; i++ {
 		p := params.updateCopy(pages.get(i))
 		p["summary"] = "FIXME!!"
-		r := Render(itemLayout, p)
-		items = append(items, r.String())
+		items = append(items, Render(itemLayout, p))
 	}
-	r := Render(&Content{"make_list/dest_path", []byte(dst)}, params)
-	dp, err := abspath(r.String())
+	dp, err := abspath(Render(dst, params))
 	if err != nil {
 		Panic(err)
 	}
@@ -146,8 +138,7 @@ func MakeList(pages *Pages, dst string, listLayout *Content, itemLayout *Content
 	if err := fs.MkdirAll(ddir); err != nil {
 		Panic(err)
 	}
-	r = Render(listLayout, params)
-	if err := fs.WriteFile(dp, r.String()); err != nil {
+	if err := fs.WriteFile(dp, Render(listLayout, params)); err != nil {
 		Panic(err)
 	}
 }

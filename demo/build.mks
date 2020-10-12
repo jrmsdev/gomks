@@ -6,7 +6,6 @@ copytree("makesite/static", "_site")
 params = params_new()
 params["base_path"] = ""
 params["site_url"] = ""
-params["title"] = ""
 params["current_year"] = "2020"
 params["subtitle"] = "Lorem Ipsum"
 params["author"] = "Admin"
@@ -34,7 +33,7 @@ list_layout = render(page_layout, args)
 // Create site pages.
 make_pages("makesite/content/_index.html", "_site/index.html",
 	page_layout, params)
-make_pages("makesite/content/[^_]*.html", "_site/{{ .slug }}/index.html",
+make_pages("makesite/content/[^_]*.html", "_site/{{ slug }}/index.html",
 	page_layout, params)
 
 args = params.Copy()
@@ -42,10 +41,10 @@ args = params.Copy()
 // Create blogs.
 args["blog"] = "blog"
 blog_posts = make_pages("makesite/content/blog/*.md",
-	"_site/blog/{{ .slug }}/index.html", post_layout, args)
+	"_site/blog/{{ slug }}/index.html", post_layout, args)
 args["blog"] = "news"
 news_posts = make_pages("makesite/content/news/*.html",
-	"_site/news/{{ .slug }}/index.html", post_layout, args)
+	"_site/news/{{ slug }}/index.html", post_layout, args)
 
 // Create blog list pages.
 args["blog"] = "blog"

@@ -15,6 +15,7 @@ import (
 )
 
 func TestDemoBuild(t *testing.T) {
+	t.Skip()
 	check := require.New(t)
 	vm := NewVM()
 	demo := filepath.FromSlash("./demo")
