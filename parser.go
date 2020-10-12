@@ -140,7 +140,7 @@ func MakeList(pages *Pages, dst string, listLayout *Content, itemLayout *Content
 	if err != nil {
 		Panic(err)
 	}
-	params["content"] = strings.Join(items, "\n")
+	params["content"] = strings.Join(items, "")
 	Log("Render list %q", dp)
 	ddir := filepath.Dir(dp)
 	if err := fs.MkdirAll(ddir); err != nil {
