@@ -5,10 +5,10 @@ copytree("makesite/static", "_site")
 // Default parameters.
 params = params_new()
 params["base_path"] = ""
-params["site_url"] = ""
-params["current_year"] = "2020"
 params["subtitle"] = "Lorem Ipsum"
 params["author"] = "Admin"
+params["site_url"] = "http://localhost:8000"
+params["current_year"] = "2020"
 
 // If params.json exists, load it.
 if path_isfile("makesite/params.json") {

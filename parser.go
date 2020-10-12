@@ -17,12 +17,16 @@ var (
 	reDateSlug *regexp.Regexp
 	reHeader   *regexp.Regexp
 	reTmpl     *regexp.Regexp
+	reTruncateTags *regexp.Regexp
+	reTruncateSpace *regexp.Regexp
 )
 
 func init() {
 	reDateSlug = regexp.MustCompile(`^(?:(\d\d\d\d-\d\d-\d\d)-)?(.+)$`)
 	reHeader = regexp.MustCompile(`^<!--\s*([^\s]+):\s+(.*)\s+-->\r?\n`)
 	reTmpl = regexp.MustCompile(`{{\s*([^}\s]+)\s*}}`)
+	reTruncateTags = regexp.MustCompile(`(?s)<.*?>`)
+	reTruncateSpace = regexp.MustCompile(`\r?\n`)
 }
 
 func Render(tpl string, params paramMap) string {
@@ -81,7 +85,7 @@ func readContent(fn string) paramMap {
 	}
 	// TODO: convert markdown
 	// update content
-	c["rfc_date"] = date.Format(time.RFC1123Z)
+	c["rfc_2822_date"] = date.Format(time.RFC1123Z)
 	ext := filepath.Ext(filepath.Base(fn))
 	if isMarkdown(ext) {
 		c["content"] = parseMarkdown(blob)
@@ -120,12 +124,19 @@ func MakePages(src, dst string, layout string, params paramMap) *Pages {
 	return pages
 }
 
+func truncate(s string) string {
+	s = reTruncateSpace.ReplaceAllString(s, " ")
+	s = reTruncateTags.ReplaceAllString(s, "")
+	s = strings.TrimSpace(s)
+	return strings.Join(strings.Split(s, " ")[:25], " ")
+}
+
 func MakeList(pages *Pages, dst string, listLayout string, itemLayout string, params paramMap) {
 	items := make([]string, 0)
 	last := pages.len()
 	for i := 0; i < last; i++ {
 		p := params.updateCopy(pages.get(i))
-		p["summary"] = "FIXME!!"
+		p["summary"] = truncate(p["content"].(string))
 		items = append(items, Render(itemLayout, p))
 	}
 	dp, err := abspath(Render(dst, params))
