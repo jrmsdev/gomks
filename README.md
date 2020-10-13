@@ -1,7 +1,8 @@
 # gomks
 
 [![PkgGoDev](https://pkg.go.dev/badge/github.com/jrmsdev/gomks)](https://pkg.go.dev/github.com/jrmsdev/gomks)
-[![Build Status](https://travis-ci.org/jrmsdev/gomks.svg?branch=master)](https://travis-ci.org/jrmsdev/gomks)
+[![Build Status](https://travis-ci.org/jrmsdev/gomks.svg?branch=master)](https://travis-ci.org/github/jrmsdev/gomks)
+[![Coverage](https://codecov.io/gh/jrmsdev/gomks/branch/master/graph/badge.svg)](https://codecov.io/gh/jrmsdev/gomks)
 [![Go Report Card](https://goreportcard.com/badge/github.com/jrmsdev/gomks)](https://goreportcard.com/report/github.com/jrmsdev/gomks)
 
 Scriptable static website generator using
