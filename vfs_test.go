@@ -5,6 +5,7 @@ package gomks
 
 import (
 	"errors"
+	"fmt"
 	"io"
 	"os"
 	"path/filepath"
@@ -18,14 +19,19 @@ func TestVFSErrors(t *testing.T) {
 	setMockFS("WithPathError")
 	defer setNativeFS()
 	n := newNativeFS()
-	check.PanicsWithError("mock abspath error", func() {
-		n.GetPath("testing")
+	check.PanicsWithError("mock abspath error: 1", func() {
+		n.GetPath("testdata/render/test.html")
 	})
+	// abspath error
+	setMockFS("WithPathError")
+	_, err := n.Glob("testdata/shutil/tree/*.txt")
+	check.EqualError(err, "mock abspath error: 1")
+	// glob error
 	setMockFS()
 	n.glob = func(p string) ([]string, error) {
 		return nil, errors.New("mock glob error")
 	}
-	_, err := n.Glob("testing")
+	_, err = n.Glob("testing")
 	check.EqualError(err, "mock glob error")
 }
 
@@ -41,6 +47,8 @@ type mockFS struct {
 	WithGlobError   bool
 	WithWriteError  bool
 	WithPathError   bool
+	PathErrorCall   int
+	pcall           int
 }
 
 func setMockFS(args ...string) {
@@ -69,6 +77,7 @@ func setMockFS(args ...string) {
 			m.WithPathError = true
 		}
 	}
+	m.PathErrorCall = 1
 	fs = nil
 	fs = m
 }
@@ -137,8 +146,11 @@ func (m *mockFS) WriteFile(p string, b string) error {
 }
 
 func (m *mockFS) Abs(p string) (string, error) {
+	m.pcall += 1
 	if m.WithPathError {
-		return "", errors.New("mock abspath error")
+		if m.pcall == m.PathErrorCall {
+			return "", errors.New(fmt.Sprintf("mock abspath error: %d", m.pcall))
+		}
 	}
 	return m.fs.Abs(p)
 }

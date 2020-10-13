@@ -88,7 +88,8 @@ func TestParserMakePagesErrors(t *testing.T) {
 	})
 	// abspath error
 	setMockFS("WithPathError")
-	check.PanicsWithError("mock abspath error", func() {
+	fs.(*mockFS).PathErrorCall = 2
+	check.PanicsWithError("mock abspath error: 2", func() {
 		MakePages("testdata/parser/index.html", "testdata/_tmp/_site", "", ParamsNew())
 	})
 	// mkdir error
@@ -108,7 +109,7 @@ func TestParserMakeListErrors(t *testing.T) {
 	defer setNativeFS()
 	// abspath error
 	setMockFS("WithPathError")
-	check.PanicsWithError("mock abspath error", func() {
+	check.PanicsWithError("mock abspath error: 1", func() {
 		MakeList(newPages(), "testdata/_tmp/index.html", "", "", ParamsNew())
 	})
 	// mkdir error
