@@ -4,20 +4,17 @@
 package gomks
 
 import (
-	//~ "bytes"
-	//~ "encoding/json"
 	"path/filepath"
 	"regexp"
 	"strings"
-	//~ "text/template"
 	"time"
 )
 
 var (
-	reDateSlug *regexp.Regexp
-	reHeader   *regexp.Regexp
-	reTmpl     *regexp.Regexp
-	reTruncateTags *regexp.Regexp
+	reDateSlug      *regexp.Regexp
+	reHeader        *regexp.Regexp
+	reTmpl          *regexp.Regexp
+	reTruncateTags  *regexp.Regexp
 	reTruncateSpace *regexp.Regexp
 )
 
@@ -83,7 +80,6 @@ func readContent(fn string) paramMap {
 		c[h.key] = h.val
 		blob = blob[h.end:]
 	}
-	// TODO: convert markdown
 	// update content
 	c["rfc_2822_date"] = date.Format(time.RFC1123Z)
 	ext := filepath.Ext(filepath.Base(fn))
