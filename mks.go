@@ -19,10 +19,13 @@ func init() {
 }
 
 var version string = "0.1.0"
-var build string = "master"
+var build string = ""
 
 func Version() string {
-	return fmt.Sprintf("%s-%s", version, build)
+	if build == "" {
+		return version
+	}
+	return build[1:]
 }
 
 func Log(format string, v ...interface{}) {

@@ -29,7 +29,7 @@ GIT_DESCRIBE ?= --always --dirty --first-parent --tags
 .PHONY: _build/version
 _build/version:
 	@mkdir -p ./_build
-	@echo "`date -u '+%Y%m%d.%H%M%S'`-`git describe $(GIT_DESCRIBE)`" >./_build/version
+	@echo "`git describe $(GIT_DESCRIBE)`-`date -u '+%Y%m%d.%H%M%S'`" >./_build/version
 
 .PHONY: clean
 clean:
