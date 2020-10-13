@@ -107,7 +107,7 @@ func MakePages(src, dst string, layout string, params paramMap) *Pages {
 		c := readContent(sp)
 		pages.Add(c)
 		args := params.updateCopy(c)
-		dp, err := abspath(Render(dst, args))
+		dp, err := fs.Abs(Render(dst, args))
 		if err != nil {
 			Panic(err)
 		}
@@ -139,7 +139,7 @@ func MakeList(pages *Pages, dst string, listLayout string, itemLayout string, pa
 		p["summary"] = truncate(p["content"].(string))
 		items = append(items, Render(itemLayout, p))
 	}
-	dp, err := abspath(Render(dst, params))
+	dp, err := fs.Abs(Render(dst, params))
 	if err != nil {
 		Panic(err)
 	}

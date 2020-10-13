@@ -4,7 +4,6 @@
 package gomks
 
 import (
-	"errors"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -12,10 +11,6 @@ import (
 
 	"github.com/stretchr/testify/require"
 )
-
-func getTestingPath(s string) string {
-	return filepath.FromSlash(s)
-}
 
 func lstree(t *testing.T, dpath string) []string {
 	ls := make([]string, 0)
@@ -52,33 +47,17 @@ func TestCopyRmtree(t *testing.T) {
 
 func TestPathErrors(t *testing.T) {
 	check := require.New(t)
-	abspath = func(p string) (string, error) {
-		if p == "mock/abspath/error" {
-			return "", errors.New("mock error")
-		}
-		return p, nil
-	}
-	defer func() {
-		abspath = filepath.Abs
-	}()
-	check.PanicsWithError("mock error", func() { Rmtree("mock/abspath/error") })
-	check.PanicsWithError("mock error",
-		func() { Copytree("mock/abspath/error", "fake/dest") })
-	check.PanicsWithError("mock error",
-		func() { Copytree("fake/source", "mock/abspath/error") })
-	check.PanicsWithError("destination and source point to same path",
-		func() { Copytree("fake/same", "fake/same") })
-	check.PanicsWithError(`rmtree: "testdata/shutil/rmtree.txt" is not a directory`,
-		func() { Rmtree("testdata/shutil/rmtree.txt") })
-	relpath = func(p string, t string) (string, error) {
-		return "", errors.New("mock error")
-	}
-	defer func() {
-		relpath = filepath.Rel
-	}()
-	check.PanicsWithError("mock error", func() {
-		cptree(filepath.FromSlash("./testdata/shutil/tree"),
-			filepath.FromSlash("fake/dest"))
+	defer setNativeFS()
+	setMockFS()
+	check.PanicsWithError(`rmtree: "testdata/shutil/rmtree.txt" is not a directory`, func() {
+		Rmtree("testdata/shutil/rmtree.txt")
+	})
+	check.PanicsWithError("destination and source point to same path", func() {
+		Copytree("testdata/shutil", "testdata/shutil")
+	})
+	setMockFS("WithPathError")
+	check.PanicsWithError("mock relpath error", func() {
+		cptree("testdata/shutil", "testdata/_tmp/shutil")
 	})
 }
 

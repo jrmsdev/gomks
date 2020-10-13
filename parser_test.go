@@ -4,7 +4,6 @@
 package gomks
 
 import (
-	"errors"
 	"io/ioutil"
 	"path/filepath"
 	"sort"
@@ -87,18 +86,11 @@ func TestParserMakePagesErrors(t *testing.T) {
 	check.PanicsWithError("mock glob error", func() {
 		MakePages("testdata/parser/index.html", "testdata/_tmp/_site", "", ParamsNew())
 	})
-	setNativeFS()
 	// abspath error
-	abspath = func(p string) (string, error) {
-		return "", errors.New("mock abspath error")
-	}
-	defer func() {
-		abspath = filepath.Abs
-	}()
+	setMockFS("WithPathError")
 	check.PanicsWithError("mock abspath error", func() {
 		MakePages("testdata/parser/index.html", "testdata/_tmp/_site", "", ParamsNew())
 	})
-	abspath = filepath.Abs
 	// mkdir error
 	setMockFS("WithMkdirError")
 	check.PanicsWithError("mock mkdir error", func() {
@@ -113,20 +105,14 @@ func TestParserMakePagesErrors(t *testing.T) {
 
 func TestParserMakeListErrors(t *testing.T) {
 	check := require.New(t)
+	defer setNativeFS()
 	// abspath error
-	abspath = func(p string) (string, error) {
-		return "", errors.New("mock abspath error")
-	}
-	defer func() {
-		abspath = filepath.Abs
-	}()
+	setMockFS("WithPathError")
 	check.PanicsWithError("mock abspath error", func() {
 		MakeList(newPages(), "testdata/_tmp/index.html", "", "", ParamsNew())
 	})
-	abspath = filepath.Abs
 	// mkdir error
 	setMockFS("WithMkdirError")
-	defer setNativeFS()
 	check.PanicsWithError("mock mkdir error", func() {
 		MakeList(newPages(), "testdata/_tmp/index.html", "", "", ParamsNew())
 	})

@@ -20,11 +20,11 @@ type EnvTestSuite struct {
 }
 
 func (s *EnvTestSuite) SetupTest() {
-	getpath = getTestingPath
+	setMockFS()
 }
 
 func (s *EnvTestSuite) TearDownTest() {
-	getpath = getAbsPath
+	setNativeFS()
 }
 
 type symt struct {

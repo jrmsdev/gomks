@@ -7,6 +7,7 @@ import (
 	"errors"
 	"io"
 	"os"
+	"path/filepath"
 )
 
 type mockFS struct {
@@ -20,6 +21,7 @@ type mockFS struct {
 	WithReadError   bool
 	WithGlobError   bool
 	WithWriteError  bool
+	WithPathError   bool
 }
 
 func setMockFS(args ...string) {
@@ -44,6 +46,8 @@ func setMockFS(args ...string) {
 			m.WithGlobError = true
 		case "WithWriteError":
 			m.WithWriteError = true
+		case "WithPathError":
+			m.WithPathError = true
 		}
 	}
 	fs = nil
@@ -111,4 +115,22 @@ func (m *mockFS) WriteFile(p string, b string) error {
 		return errors.New("mock write error")
 	}
 	return m.fs.WriteFile(p, b)
+}
+
+func (m *mockFS) Abs(p string) (string, error) {
+	if m.WithPathError {
+		return "", errors.New("mock abspath error")
+	}
+	return m.fs.Abs(p)
+}
+
+func (m *mockFS) Rel(b, p string) (string, error) {
+	if m.WithPathError {
+		return "", errors.New("mock relpath error")
+	}
+	return m.fs.Rel(b, p)
+}
+
+func (m *mockFS) GetPath(s string) string {
+	return filepath.FromSlash(s)
 }

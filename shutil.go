@@ -8,22 +8,8 @@ import (
 	"path/filepath"
 )
 
-var abspath func(string) (string, error) = filepath.Abs
-var relpath func(string, string) (string, error) = filepath.Rel
-var getpath func(s string) string = getAbsPath
-
-func getAbsPath(s string) string {
-	var err error
-	p := filepath.FromSlash(s)
-	p, err = abspath(p)
-	if err != nil {
-		Panic(err)
-	}
-	return p
-}
-
 func Rmtree(path string) {
-	path = getpath(path)
+	path = fs.GetPath(path)
 	if st, err := os.Stat(path); err == nil {
 		if st.IsDir() {
 			Log("Remove %q", path)
@@ -37,8 +23,8 @@ func Rmtree(path string) {
 }
 
 func Copytree(srcpath, dstpath string) {
-	sp := getpath(srcpath)
-	dp := getpath(dstpath)
+	sp := fs.GetPath(srcpath)
+	dp := fs.GetPath(dstpath)
 	if dp == sp {
 		Panic("destination and source point to same path")
 	}
@@ -51,7 +37,7 @@ func cptree(srcd, dstd string) {
 			Panic(err)
 		}
 		var relp string
-		relp, err = relpath(srcd, path)
+		relp, err = fs.Rel(srcd, path)
 		if err != nil {
 			Panic(err)
 		}
@@ -89,7 +75,7 @@ func cp(src, dst string) {
 }
 
 func PathIsFile(path string) bool {
-	path = getpath(path)
+	path = fs.GetPath(path)
 	st, err := fs.Stat(path)
 	if err != nil {
 		if os.IsNotExist(err) {
@@ -102,7 +88,7 @@ func PathIsFile(path string) bool {
 }
 
 func Fread(filename string) string {
-	filename = getpath(filename)
+	filename = fs.GetPath(filename)
 	blob, err := fs.ReadFile(filename)
 	if err != nil {
 		Panic(err)

@@ -22,6 +22,9 @@ type fsi interface {
 	ReadFile(string) ([]byte, error)
 	Glob(string) ([]string, error)
 	WriteFile(string, string) error
+	Abs(string) (string, error)
+	Rel(string, string) (string, error)
+	GetPath(s string) string
 }
 
 type nativeFS struct {
@@ -83,4 +86,22 @@ func (n *nativeFS) Glob(p string) ([]string, error) {
 
 func (n *nativeFS) WriteFile(p string, b string) error {
 	return ioutil.WriteFile(p, []byte(b), 0666)
+}
+
+func (n *nativeFS) Abs(p string) (string, error) {
+	return filepath.Abs(p)
+}
+
+func (n *nativeFS) Rel(b, p string) (string, error) {
+	return filepath.Rel(b, p)
+}
+
+func (n *nativeFS) GetPath(s string) string {
+	var err error
+	p := filepath.FromSlash(s)
+	p, err = n.Abs(p)
+	if err != nil {
+		Panic(err)
+	}
+	return p
 }
