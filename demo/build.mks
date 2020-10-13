@@ -1,3 +1,5 @@
+log("mks version %s", version())
+
 // Create a new _site directory from scratch.
 rmtree("_site")
 copytree("makesite/static", "_site")

@@ -22,7 +22,7 @@ var (
 func main() {
 	flag.BoolVar(&showVersion, "version", false, "show version and exit")
 	flag.StringVar(&serveSite, "serve", "", "run http server on `site_dirpath`")
-	flag.StringVar(&httpListen, "http", "127.0.0.1:8080",
+	flag.StringVar(&httpListen, "http", "127.0.0.1:8000",
 		"bind http server to `address:port`")
 	flag.Parse()
 	exit(run(flag.Args()))
