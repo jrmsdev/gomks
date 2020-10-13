@@ -76,7 +76,9 @@ var symTests = map[string]map[string]symt{
 			fread("testdata/render/test.html"), params_new())`, ""},
 	},
 	"make_list": {
-		"test": {`log("FIXME!!")`, ""},
+		"test": {`make_list(make_pages("", "",
+			fread("testdata/render/test.html"), params_new()),
+			"testdata/render/test.html", "", "", params_new())`, ""},
 	},
 }
 
