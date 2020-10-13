@@ -4,7 +4,6 @@
 package gomks
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -12,7 +11,13 @@ import (
 
 func TestVersion(t *testing.T) {
 	check := assert.New(t)
-	check.Equal(fmt.Sprintf("%s-%s", version, build), Version())
+	check.Equal(version, Version())
+	check.Equal("", build)
+	build = "vtesting"
+	defer func() {
+		build = ""
+	}()
+	check.Equal("testing", Version())
 }
 
 func TestLog(t *testing.T) {
