@@ -52,6 +52,19 @@ func TestParserReadContent(t *testing.T) {
 	check.Equal(ck, keys)
 }
 
+func TestParserReadContentErrors(t *testing.T) {
+	check := require.New(t)
+	setMockFS("WithReadError")
+	defer setNativeFS()
+	// read error
+	fn := filepath.FromSlash("testdata/parser/index.html")
+	check.PanicsWithError("mock read error", func() { readContent(fn) })
+	// time parse error
+	setNativeFS()
+	fn = filepath.FromSlash("testdata/parser/0000-00-00-index.html")
+	check.Panics(func() { readContent(fn) })
+}
+
 func TestParserTemplatesLayout(t *testing.T) {
 	check := require.New(t)
 	params := ParamsNew()
