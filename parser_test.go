@@ -110,3 +110,29 @@ func TestParserMakePagesErrors(t *testing.T) {
 		MakePages("testdata/parser/index.html", "testdata/_tmp/_site", "", ParamsNew())
 	})
 }
+
+func TestParserMakeListErrors(t *testing.T) {
+	check := require.New(t)
+	// abspath error
+	abspath = func(p string) (string, error) {
+		return "", errors.New("mock abspath error")
+	}
+	defer func() {
+		abspath = filepath.Abs
+	}()
+	check.PanicsWithError("mock abspath error", func() {
+		MakeList(newPages(), "testdata/_tmp/index.html", "", "", ParamsNew())
+	})
+	abspath = filepath.Abs
+	// mkdir error
+	setMockFS("WithMkdirError")
+	defer setNativeFS()
+	check.PanicsWithError("mock mkdir error", func() {
+		MakeList(newPages(), "testdata/_tmp/index.html", "", "", ParamsNew())
+	})
+	// write error
+	setMockFS("WithWriteError")
+	check.PanicsWithError("mock write error", func() {
+		MakeList(newPages(), "testdata/_tmp/index.html", "", "", ParamsNew())
+	})
+}
