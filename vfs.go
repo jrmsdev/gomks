@@ -27,16 +27,21 @@ type fsi interface {
 	GetPath(s string) string
 }
 
-type nativeFS struct {
-}
-
 func setNativeFS() {
 	fs = nil
-	fs = &nativeFS{}
+	fs = newNativeFS()
 }
 
 func init() {
 	setNativeFS()
+}
+
+type nativeFS struct {
+	glob func(string) ([]string, error)
+}
+
+func newNativeFS() *nativeFS {
+	return &nativeFS{glob: filepath.Glob}
 }
 
 func (n *nativeFS) RemoveAll(p string) error {
@@ -69,13 +74,13 @@ func (n *nativeFS) ReadFile(p string) ([]byte, error) {
 }
 
 func (n *nativeFS) Glob(p string) ([]string, error) {
-	l, err := filepath.Glob(p)
+	l, err := n.glob(p)
 	if err != nil {
 		return nil, err
 	}
 	flist := make([]string, 0)
 	for _, fn := range l {
-		n, err := filepath.Abs(fn)
+		n, err := fs.Abs(fn)
 		if err != nil {
 			return nil, err
 		}
@@ -99,7 +104,7 @@ func (n *nativeFS) Rel(b, p string) (string, error) {
 func (n *nativeFS) GetPath(s string) string {
 	var err error
 	p := filepath.FromSlash(s)
-	p, err = n.Abs(p)
+	p, err = fs.Abs(p)
 	if err != nil {
 		Panic(err)
 	}

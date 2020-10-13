@@ -8,7 +8,26 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"testing"
+
+	"github.com/stretchr/testify/require"
 )
+
+func TestVFSErrors(t *testing.T) {
+	check := require.New(t)
+	setMockFS("WithPathError")
+	defer setNativeFS()
+	n := newNativeFS()
+	check.PanicsWithError("mock abspath error", func() {
+		n.GetPath("testing")
+	})
+	setMockFS()
+	n.glob = func(p string) ([]string, error) {
+		return nil, errors.New("mock glob error")
+	}
+	_, err := n.Glob("testing")
+	check.EqualError(err, "mock glob error")
+}
 
 type mockFS struct {
 	fs              fsi
@@ -25,7 +44,7 @@ type mockFS struct {
 }
 
 func setMockFS(args ...string) {
-	m := &mockFS{fs: &nativeFS{}}
+	m := &mockFS{fs: newNativeFS()}
 	for _, a := range args {
 		switch a {
 		case "WithRemoveError":
