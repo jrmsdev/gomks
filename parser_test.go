@@ -4,6 +4,7 @@
 package gomks
 
 import (
+	"errors"
 	"io/ioutil"
 	"path/filepath"
 	"sort"
@@ -76,4 +77,36 @@ func TestParserTemplatesLayout(t *testing.T) {
 	s := strings.Replace(string(blob), "\n", "", -1)
 	s = strings.Replace(s, "\r", "", -1)
 	check.Equal(`<!-- testing --><html><p>testing</p></html>`, s)
+}
+
+func TestParserMakePagesErrors(t *testing.T) {
+	check := require.New(t)
+	setMockFS("WithGlobError")
+	defer setNativeFS()
+	// glob error
+	check.PanicsWithError("mock glob error", func() {
+		MakePages("testdata/parser/index.html", "testdata/_tmp/_site", "", ParamsNew())
+	})
+	setNativeFS()
+	// abspath error
+	abspath = func(p string) (string, error) {
+		return "", errors.New("mock abspath error")
+	}
+	defer func() {
+		abspath = filepath.Abs
+	}()
+	check.PanicsWithError("mock abspath error", func() {
+		MakePages("testdata/parser/index.html", "testdata/_tmp/_site", "", ParamsNew())
+	})
+	abspath = filepath.Abs
+	// mkdir error
+	setMockFS("WithMkdirError")
+	check.PanicsWithError("mock mkdir error", func() {
+		MakePages("testdata/parser/index.html", "testdata/_tmp/_site", "", ParamsNew())
+	})
+	// write error
+	setMockFS("WithWriteError")
+	check.PanicsWithError("mock write error", func() {
+		MakePages("testdata/parser/index.html", "testdata/_tmp/_site", "", ParamsNew())
+	})
 }
