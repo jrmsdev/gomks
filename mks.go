@@ -18,7 +18,7 @@ func init() {
 	}
 }
 
-var version string = "0.0"
+var version string = "0.1.0"
 var build string = "master"
 
 func Version() string {
