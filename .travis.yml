@@ -15,3 +15,8 @@ go:
 
 script:
   - make check
+
+after_sucess:
+  - go get -u github.com/haya14busa/goverage
+  - goverage -v -coverprofile=coverage.txt -covermode=count ./...
+  - bash <(curl -s https://codecov.io/bash)
