@@ -35,6 +35,7 @@ func (p paramMap) Load(filename string) {
 	if err != nil {
 		Panic(err)
 	}
+	Log("Load params %q", fn)
 	if err := json.Unmarshal(blob, &p); err != nil {
 		Panic(err)
 	}
