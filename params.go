@@ -5,23 +5,8 @@ package gomks
 
 import (
 	"encoding/json"
-	"os"
 	"path/filepath"
 )
-
-var setenv func(string, string) error = os.Setenv
-
-func SetenvDefault(key, val string) {
-	if _, found := os.LookupEnv(key); !found {
-		if err := setenv(key, val); err != nil {
-			Panic(err)
-		}
-	}
-}
-
-func Getenv(key string) string {
-	return os.Getenv(key)
-}
 
 type paramMap map[string]interface{}
 

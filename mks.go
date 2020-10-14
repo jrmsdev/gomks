@@ -43,3 +43,17 @@ func Panicf(format string, v ...interface{}) {
 	log.Output(2, msg)
 	panic(errors.New(msg))
 }
+
+var setenv func(string, string) error = os.Setenv
+
+func SetenvDefault(key, val string) {
+	if _, found := os.LookupEnv(key); !found {
+		if err := setenv(key, val); err != nil {
+			Panic(err)
+		}
+	}
+}
+
+func Getenv(key string) string {
+	return os.Getenv(key)
+}
