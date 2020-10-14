@@ -19,8 +19,8 @@ func SetenvDefault(key, val string) {
 	}
 }
 
-func Getenv(key string) {
-	os.Getenv(key)
+func Getenv(key string) string {
+	return os.Getenv(key)
 }
 
 type paramMap map[string]interface{}

@@ -5,11 +5,23 @@ package gomks
 
 import (
 	"errors"
+	"fmt"
+	"math/rand"
 	"os"
 	"testing"
 
 	"github.com/stretchr/testify/require"
 )
+
+func TestSetGetEnv(t *testing.T) {
+	check := require.New(t)
+	n := fmt.Sprintf("GOMKS_ENV_TEST_%d_%d", rand.Int(), rand.Int())
+	check.Equal("", Getenv(n))
+	SetenvDefault(n, "testing")
+	check.Equal("testing", Getenv(n))
+	SetenvDefault(n, "test2")
+	check.Equal("testing", Getenv(n))
+}
 
 func TestSetenvError(t *testing.T) {
 	check := require.New(t)
