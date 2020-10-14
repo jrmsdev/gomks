@@ -4,6 +4,7 @@
 package gomks
 
 import (
+	"fmt"
 	"path/filepath"
 	"regexp"
 	"strings"
@@ -30,7 +31,7 @@ func Render(tpl string, params paramMap) string {
 	return reTmpl.ReplaceAllStringFunc(tpl, func(s string) string {
 		m := reTmpl.FindStringSubmatch(s)
 		if v, found := params[m[1]]; found {
-			return v.(string)
+			return fmt.Sprintf("%s", v)
 		}
 		return s
 	})
