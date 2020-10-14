@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 )
 
 func init() {
@@ -56,4 +57,12 @@ func SetenvDefault(key, val string) {
 
 func Getenv(key string) string {
 	return os.Getenv(key)
+}
+
+func Datetime() time.Time {
+	return time.Now().Local()
+}
+
+func DatetimeUTC() time.Time {
+	return time.Now().UTC()
 }

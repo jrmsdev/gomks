@@ -80,6 +80,12 @@ var symTests = map[string]map[string]symt{
 			fread("testdata/render/test.html"), params_new()),
 			"testdata/render/test.html", "", "", params_new())`, ""},
 	},
+	"datetime": {
+		"test": {"datetime().Year()", ""},
+	},
+	"datetime_utc": {
+		"test": {"datetime_utc()", ""},
+	},
 }
 
 func getSym(e *env.Env, n string) error {

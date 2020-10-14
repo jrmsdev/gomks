@@ -28,6 +28,8 @@ func newEnv() *env.Env {
 	define(e, "render", Render)
 	define(e, "make_pages", MakePages)
 	define(e, "make_list", MakeList)
+	define(e, "datetime", Datetime)
+	define(e, "datetime_utc", DatetimeUTC)
 	return e
 }
 
