@@ -31,7 +31,7 @@ func Render(tpl string, params paramMap) string {
 	return reTmpl.ReplaceAllStringFunc(tpl, func(s string) string {
 		m := reTmpl.FindStringSubmatch(s)
 		if v, found := params[m[1]]; found {
-			return fmt.Sprintf("%s", v)
+			return fmt.Sprintf("%v", v)
 		}
 		return s
 	})
