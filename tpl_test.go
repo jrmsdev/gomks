@@ -4,6 +4,9 @@
 package gomks
 
 import (
+	"bytes"
+	"errors"
+	"html/template"
 	"path/filepath"
 	"testing"
 
@@ -43,6 +46,10 @@ func TestTplRenderVfsErrors(t *testing.T) {
 	check.PanicsWithError("mock abspath error: 2", render)
 }
 
+func mockTplExec(buf *bytes.Buffer, tpl *template.Template, args interface{}) error {
+	return errors.New("mock tplExec error")
+}
+
 func TestTplRenderError(t *testing.T) {
 	check := require.New(t)
 	tpl := TplParse("testdata/tpl/template/page.html")
@@ -51,18 +58,9 @@ func TestTplRenderError(t *testing.T) {
 			"testdata/_tmp/tpl/site-index.html",
 			tpl, ParamsNew())
 	}
-	defer setNativeFS()
-	// write error
-	setMockFS("WithWriteError")
-	check.PanicsWithError("mock write error", render)
-	// mkdir error
-	setMockFS("WithMkdirError")
-	check.PanicsWithError("mock mkdir error", render)
-	// glob path error
-	setMockFS("WithGlobError")
-	check.PanicsWithError("mock glob error", render)
-	// abs path error
-	setMockFS("WithPathError")
-	fs.(*mockFS).PathErrorCall = 2
-	check.PanicsWithError("mock abspath error: 2", render)
+	tplExec = mockTplExec
+	defer func() {
+		tplExec = tplExecImpl
+	}()
+	check.PanicsWithError("mock tplExec error", render)
 }

@@ -18,6 +18,16 @@ func TplParse(pattern string) *Template {
 	return &Template{tpl: template.Must(template.ParseGlob(p))}
 }
 
+var tplExec func(*bytes.Buffer, *template.Template, interface{}) error
+
+func tplExecImpl(buf *bytes.Buffer, tpl *template.Template, args interface{}) error {
+	return tpl.Execute(buf, args)
+}
+
+func init() {
+	tplExec = tplExecImpl
+}
+
 func TplRender(src, dst string, layout *Template, params paramMap) *Pages {
 	tpl := template.Must(layout.tpl.Clone())
 	src = filepath.FromSlash(src)
@@ -38,7 +48,7 @@ func TplRender(src, dst string, layout *Template, params paramMap) *Pages {
 		}
 		args["content"] = template.HTML(args["content"].(string))
 		Log("Render %q -> %q", sp, dp)
-		if err := tpl.Execute(buf, args); err != nil {
+		if err := tplExec(buf, tpl, args); err != nil {
 			Panic(err)
 		}
 		ddir := filepath.Dir(dp)
