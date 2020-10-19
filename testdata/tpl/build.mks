@@ -3,13 +3,13 @@
 // tpl test build script
 
 src = "testdata/tpl"
-_site = "testdata/_tmp/tpl/out"
+site = "testdata/_tmp/tpl/out"
 
-log("Build tpl testing site %q -> %q", src, _site)
+log("Build tpl testing site %q -> %q", src, site)
 
 params = params_new()
 
-rmtree(_site)
-
+rmtree(site)
 page_tpl = tpl_parse(src+"/template/page.html")
-//~ tpl_render()
+
+tpl_render(src+"/content/_index.html", site+"/index.html", page_tpl, params)

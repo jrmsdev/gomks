@@ -39,6 +39,7 @@ func TplRender(src, dst string, layout *Template, params paramMap) *Pages {
 		if err != nil {
 			Panic(err)
 		}
+		args["content"] = template.HTML(args["content"].(string))
 		Log("Render %q -> %q", sp, dp)
 		if err := tpl.Execute(buf, args); err != nil {
 			Panic(err)
