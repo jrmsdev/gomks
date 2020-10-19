@@ -1,0 +1,11 @@
+#!/usr/bin/env mks
+
+// tpl test build script
+
+src = "testdata/tpl"
+_site = "testdata/_tmp/tpl/out"
+
+log("Build tpl testing site %q -> %q", src, _site)
+rmtree(_site)
+
+page_tpl = tpl_load(src+"/template/page.html")

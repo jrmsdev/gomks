@@ -86,6 +86,9 @@ var symTests = map[string]map[string]symt{
 	"datetime_utc": {
 		"test": {"datetime_utc()", ""},
 	},
+	"tpl_load": {
+		"test": {`tpl_load("testdata/tpl/template/page.html")`, ""},
+	},
 }
 
 func getSym(e *env.Env, n string) error {
