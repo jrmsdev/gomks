@@ -4,8 +4,6 @@
 package gomks
 
 import (
-	"io/ioutil"
-
 	"github.com/mattn/anko/env"
 	"github.com/mattn/anko/vm"
 )
@@ -31,7 +29,7 @@ func (m *vms) Execute(script string) error {
 }
 
 func (m *vms) Eval(filename string) error {
-	blob, err := ioutil.ReadFile(filename)
+	blob, err := fs.ReadFile(filename)
 	if err != nil {
 		return err
 	}
