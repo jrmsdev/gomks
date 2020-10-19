@@ -13,6 +13,7 @@ import (
 )
 
 func lstree(t *testing.T, dpath string) []string {
+	t.Helper()
 	ls := make([]string, 0)
 	walk := func(path string, st os.FileInfo, err error) error {
 		if err != nil {
