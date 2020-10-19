@@ -5,6 +5,7 @@ package gomks
 
 import (
 	"html/template"
+	"path/filepath"
 )
 
 type Template struct {
@@ -12,5 +13,6 @@ type Template struct {
 }
 
 func TplLoad(pattern string) *Template {
-	return &Template{tpl: template.Must(template.ParseGlob(pattern))}
+	p := filepath.FromSlash(pattern)
+	return &Template{tpl: template.Must(template.ParseGlob(p))}
 }

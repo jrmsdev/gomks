@@ -6,6 +6,9 @@ src = "testdata/tpl"
 _site = "testdata/_tmp/tpl/out"
 
 log("Build tpl testing site %q -> %q", src, _site)
+
+params = params_new()
+
 rmtree(_site)
 
 page_tpl = tpl_load(src+"/template/page.html")
