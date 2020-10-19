@@ -15,6 +15,6 @@ func TestTplBuild(t *testing.T) {
 	vm := NewVM()
 	err := vm.Eval(filepath.Join("testdata", "tpl", "build.mks"))
 	check.NoError(err)
-	//~ diffCheck(t, filepath.Join("testdata", "tpl", "site"),
-		//~ filepath.Join("testdata", "_tmp", "tpl", "out"))
+	diffCheck(t, filepath.Join("testdata", "tpl", "site"),
+		filepath.Join("testdata", "_tmp", "tpl", "out"))
 }
