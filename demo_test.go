@@ -5,7 +5,6 @@ package gomks
 
 import (
 	"os"
-	"os/exec"
 	"path/filepath"
 	"testing"
 
@@ -23,15 +22,6 @@ func TestDemoBuild(t *testing.T) {
 	if err := os.Chdir(filepath.FromSlash("../")); err != nil {
 		t.Fatal(err)
 	}
-	for _, fn := range lstree(t, filepath.Join(demo, "_site")) {
-		src := filepath.Join(demo, "_site", fn)
-		check.FileExists(src)
-		chk := filepath.Join("testdata", "demo", "_site", fn)
-		check.FileExists(chk)
-		cmd := exec.Command("diff", "-Naur", chk, src)
-		cmd.Stdout = os.Stderr
-		cmd.Stderr = os.Stderr
-		err := cmd.Run()
-		check.NoError(err)
-	}
+	diffCheck(t, filepath.Join(demo, "_site"),
+		filepath.Join("testdata", "demo", "_site"))
 }

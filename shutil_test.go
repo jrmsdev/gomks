@@ -6,6 +6,7 @@ package gomks
 import (
 	"io/ioutil"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"testing"
 
@@ -30,6 +31,21 @@ func lstree(t *testing.T, dpath string) []string {
 	}
 	filepath.Walk(dpath, walk)
 	return ls
+}
+
+func diffCheck(t *testing.T, src, dst string) {
+	t.Helper()
+	check := require.New(t)
+	for _, fn := range lstree(t, src) {
+		sp := filepath.Join(src, fn)
+		check.FileExists(sp)
+		chk := filepath.Join(dst, fn)
+		check.FileExists(chk)
+		cmd := exec.Command("diff", "-Naur", chk, sp)
+		cmd.Stdout = os.Stderr
+		cmd.Stderr = os.Stderr
+		check.NoError(cmd.Run())
+	}
 }
 
 func TestCopyRmtree(t *testing.T) {
