@@ -4,11 +4,9 @@
 package gomks
 
 import (
-	//~ "errors"
 	"path/filepath"
 	"testing"
 
-	//~ "github.com/mattn/anko/env"
 	"github.com/stretchr/testify/suite"
 )
 

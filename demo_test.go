@@ -4,8 +4,6 @@
 package gomks
 
 import (
-	//~ "errors"
-	//~ "io"
 	"os"
 	"os/exec"
 	"path/filepath"
