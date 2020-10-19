@@ -30,7 +30,7 @@ func newEnv() *env.Env {
 	define(e, "make_list", MakeList)
 	define(e, "datetime", Datetime)
 	define(e, "datetime_utc", DatetimeUTC)
-	define(e, "tpl_load", TplLoad)
+	define(e, "tpl_parse", TplParse)
 	return e
 }
 

@@ -12,7 +12,7 @@ type Template struct {
 	tpl *template.Template
 }
 
-func TplLoad(pattern string) *Template {
+func TplParse(pattern string) *Template {
 	p := filepath.FromSlash(pattern)
 	return &Template{tpl: template.Must(template.ParseGlob(p))}
 }

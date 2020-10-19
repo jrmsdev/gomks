@@ -86,8 +86,8 @@ var symTests = map[string]map[string]symt{
 	"datetime_utc": {
 		"test": {"datetime_utc()", ""},
 	},
-	"tpl_load": {
-		"test": {`tpl_load("testdata/tpl/template/page.html")`, ""},
+	"tpl_parse": {
+		"test": {`tpl_parse("testdata/tpl/template/page.html")`, ""},
 	},
 }
 
