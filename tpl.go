@@ -19,10 +19,7 @@ func TplParse(pattern string) *Template {
 }
 
 func TplRender(src, dst string, layout *Template, params paramMap) *Pages {
-	tpl, err := layout.tpl.Clone()
-	if err != nil {
-		Panic(err)
-	}
+	tpl := template.Must(layout.tpl.Clone())
 	src = filepath.FromSlash(src)
 	flist, err := fs.Glob(src)
 	if err != nil {
