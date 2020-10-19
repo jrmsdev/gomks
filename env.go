@@ -31,6 +31,7 @@ func newEnv() *env.Env {
 	define(e, "datetime", Datetime)
 	define(e, "datetime_utc", DatetimeUTC)
 	define(e, "tpl_parse", TplParse)
+	define(e, "tpl_render", TplRender)
 	return e
 }
 

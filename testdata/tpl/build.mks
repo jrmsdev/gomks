@@ -12,3 +12,4 @@ params = params_new()
 rmtree(_site)
 
 page_tpl = tpl_parse(src+"/template/page.html")
+//~ tpl_render()

@@ -89,6 +89,12 @@ var symTests = map[string]map[string]symt{
 	"tpl_parse": {
 		"test": {`tpl_parse("testdata/tpl/template/page.html")`, ""},
 	},
+	"tpl_render": {
+		"test": {`tpl_render("testdata/tpl/content/_index.html",
+			"testdata/_tmp/tpl-index.html",
+			tpl_parse("testdata/tpl/template/page.html"),
+			params_new())`, ""},
+	},
 }
 
 func getSym(e *env.Env, n string) error {
